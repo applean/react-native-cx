@@ -40,9 +40,10 @@ namespace :gmtc do
     days = doc.search('.big_list li')
     room = nil
     days.each_with_index do |day_dom, index|
-      p index
+      dates = ['2016-06-24', '2016-06-25']
       day_name = ['第一天', '第二天'][index]
-      day = Day.find_or_create_by!(name: day_name)
+      day_date = dates[index]
+      day = Day.find_or_create_by!(name: day_name, date: day_date)
       puts "============ Add #{day_name} ========="
 
       lines = day_dom.search('table tr')[1..-1]
@@ -74,9 +75,7 @@ namespace :gmtc do
           authors = author ? author.gsub(/\([^\)]+\)/, '').gsub(/（[^）]+）/, '').split('、') : []
           avatars = authors.map{|a| author_avatars[a]}.select{|e| !e.nil?}
 
-          Topic.create!(
-            day: day,
-            room: room,
+          room.topics.create!(
             author: author,
             author_info: author_info,
             author_avatars: avatars,

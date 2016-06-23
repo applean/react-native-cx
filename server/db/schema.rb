@@ -65,7 +65,6 @@ ActiveRecord::Schema.define(version: 20160623072040) do
   add_index "rooms", ["day_id"], name: "index_rooms_on_day_id"
 
   create_table "topics", force: :cascade do |t|
-    t.integer  "day_id"
     t.integer  "room_id"
     t.string   "author"
     t.string   "author_info"
@@ -79,7 +78,6 @@ ActiveRecord::Schema.define(version: 20160623072040) do
     t.datetime "updated_at",     null: false
   end
 
-  add_index "topics", ["day_id"], name: "index_topics_on_day_id"
   add_index "topics", ["room_id"], name: "index_topics_on_room_id"
 
 end
