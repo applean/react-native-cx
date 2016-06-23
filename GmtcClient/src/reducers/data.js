@@ -5,8 +5,7 @@ const LOAD_FAILED = 'LOAD_FAILED'
 const initialState = {
   loading: false,
   error: null,
-  days: [],
-  rooms: []
+  data: {}
 }
 
 export default function reducer (state = initialState, action) {
@@ -22,8 +21,7 @@ export default function reducer (state = initialState, action) {
         ...state,
         loading: false,
         error: null,
-        days: action.days,
-        rooms: action.rooms
+        data: action.data
       }
     case LOAD_FAILED:
       return {
@@ -42,11 +40,10 @@ export function load () {
   }
 }
 
-export function loadSuccess (rooms, days) {
+export function loadSuccess (data) {
   return {
     type: LOAD_SUCCESS,
-    days,
-    rooms
+    data
   }
 }
 
