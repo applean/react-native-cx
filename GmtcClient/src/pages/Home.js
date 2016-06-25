@@ -17,11 +17,18 @@ class Home extends Component {
     loadSuccess: PropTypes.func.isRequired,
     loadFailed: PropTypes.func.isRequired,
     loading: PropTypes.bool.isRequired,
-    data: PropTypes.object.isRequired
+    days: PropTypes.array.isRequired
   };
 
   render () {
-    const day = this.props.data.days && this.props.data.days[0] || {}
+    if (this.props.days.length === 0) {
+      return (
+        <View style={[styles.container, {justifyContent: 'center', alignItems: 'center'}]} >
+          <Text>Loading...</Text>
+        </View>
+      )
+    }
+    const day = this.props.days[0] || {}
     return (
       <ScrollView style={styles.container}>
         <View style={{flex: 1, height: 35, flexDirection: 'row', backgroundColor: '#b9b9b9'}}>
@@ -98,7 +105,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => ({
   loading: state.data.loading,
   error: state.data.error,
-  data: state.data.data
+  days: state.data.data.days || []
 })
 
 const mapDispatchToProps = dispatch =>
