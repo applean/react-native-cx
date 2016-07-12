@@ -6,8 +6,9 @@
     "start": "node node_modules/react-native/local-cli/cli.js start"
   },
   "dependencies": {
-    "react": "15.1.0",
-    "react-native": "^0.28.0",
+    "react": "^15.2.1",
+    "react-native": "^0.29.0",
+    "react-native-navigationbar": "^0.3.6",
     "react-redux": "^4.2.0",
     "redux": "^3.4.0",
     "redux-thunk": "^1.0.3",
