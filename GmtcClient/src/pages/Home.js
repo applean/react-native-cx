@@ -1,15 +1,31 @@
 /*global fetch*/
 import React, { Component, PropTypes } from 'react'
-import { View, Text, StyleSheet, ScrollView } from 'react-native'
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  ListView
+} from 'react-native'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
+import dataConverter from '../helper/dataHelper'
 import * as dataActions from '../reducers/data'
 
 class Home extends Component {
 
-  state = {
-    selected: 0
-  };
+  constructor (props) {
+    super(props)
+    let dataSource = new ListView.DataSource({
+      rowHasChanged: (row1, row2) => row1 !== row2,
+      getRowData: (dataBlob, sid, rid) => dataBlob[sid][rid],
+      sectionHeaderHasChanged: (s1, s2) => s1 !== s2,
+      getSectionHeaderData: (dataBlob, sid) => dataBlob[sid]
+    })
+    this.state = {
+      dataSource: cloneWithData(dataSource, [])
+    }
+  }
 
   static propTypes = {
     navigator: PropTypes.object,
@@ -20,62 +36,67 @@ class Home extends Component {
     days: PropTypes.array.isRequired
   };
 
+  componentWillReceiveProps (nextProps) {
+    if (this.props.days !== nextProps.days) {
+      this.setState({
+        dataSource: cloneWithData(this.state.dataSource, nextProps.days[0].topics)
+      })
+    }
+  }
+
   render () {
-    if (this.props.days.length === 0) {
+    if (this.props.loading) {
       return (
         <View style={[styles.container, {justifyContent: 'center', alignItems: 'center'}]} >
           <Text>Loading...</Text>
         </View>
       )
     }
-    const day = this.props.days[0] || {}
     return (
-      <ScrollView style={styles.container}>
-        <View style={{flex: 1, height: 35, flexDirection: 'row', backgroundColor: '#b9b9b9'}}>
-          <View style={{flex: 1, borderColor: 'white', borderRightWidth: 1}}>
-            <Text style={[{color: 'white'}, styles.font]}>25日</Text>
-          </View>
-          <View style={{flex: 2, borderColor: 'white', borderRightWidth: 1}}>
-            <Text style={[{color: 'white'}, styles.font]}>主题</Text>
-          </View>
-          <View style={{flex: 1}}>
-            <Text style={[{color: 'white'}, styles.font]}>讲师</Text>
-          </View>
-        </View>
-        {this.renderRooms(day.rooms || [])}
-      </ScrollView>
-    )
-  }
-
-  renderRooms (rooms) {
-    return rooms.map((room, index) =>
-      <View key={index}>
-        <View style={{height: 35, alignItems: 'center', justifyContent: 'center', backgroundColor: '#eeeeee'}}>
-          <Text style={[{color: '#acc51f', fontSize: 13}, styles.font]}>{room.name}</Text>
-        </View>
-        {this.renderTopics(room.topics || [])}
+      <View style={styles.container}>
+        <ListView
+          initialListSize={10}
+          pageSize={10}
+          dataSource={this.state.dataSource}
+          renderRow={this.renderRow}
+          renderSectionHeader={this.renderSectionHeader}
+        />
       </View>
     )
   }
 
-  renderTopics (topics) {
-    return topics.map((topic, index) => {
-      const startTime = topic.start_at.slice(11, 16)
-      const endTime = topic.end_at.slice(11, 16)
-      return (
-        <View key={index} style={{flex: 1, flexDirection: 'row', borderColor: '#eeeeee', borderBottomWidth: 1}}>
-          <View style={{flex: 1, borderColor: '#eeeeee', borderRightWidth: 1}}>
-            <Text style={[{color: '#1358A2'}, styles.font]}>{startTime}~{endTime}</Text>
+  renderRow = (item) => {
+    return (
+      <View style={{padding: 12}}>
+        <Text style={{fontSize: 16, color: '#6199b1'}}>{item.title}</Text>
+        {
+          item.author &&
+          <View style={{flexDirection: 'row', paddingLeft: 5, marginTop: 15}}>
+            {
+              item.author_avatars.length > 0
+              ? item.author_avatars.map((uri, index) =>
+                <Image key={index} style={{height: 35, width: 35, borderRadius: 17.5, marginLeft: -5}} source={{uri}}/>
+                )
+              : <Image style={{height: 35, width: 35, borderRadius: 17.5, marginLeft: -5}} source={require('../assets/default_avatar.png')}/>
+            }
+            <View style={{marginLeft: 10, justifyContent: 'center', flex: 1}}>
+              <Text numberOfLines={1} style={styles.font}>{item.author}</Text>
+              <Text numberOfLines={1} style={{marginTop: 5, color: '#777777', fontSize: 11}}>{item.author_info}</Text>
+            </View>
           </View>
-          <View style={{flex: 2, borderColor: '#eeeeee', borderRightWidth: 1}}>
-            <Text style={[{color: '#1358A2'}, styles.font]}>{topic.title}</Text>
-          </View>
-          <View style={{flex: 1}}>
-            <Text style={[{color: '#1358A2'}, styles.font]}>{topic.author}</Text>
-          </View>
-        </View>
-      )
-    })
+        }
+      </View>
+    )
+  }
+
+  renderSectionHeader = (sectionData, time) => {
+    const startTime = sectionData[0].start_at.slice(11, 16)
+    const endTime = sectionData[0].end_at.slice(11, 16)
+    return (
+      <View style={{backgroundColor: '#eeeeee'}}>
+        <Text style={[{margin: 5, marginLeft: 8}, styles.font]}>{startTime}~{endTime}</Text>
+      </View>
+    )
   }
 
   componentDidMount () {
@@ -86,9 +107,18 @@ class Home extends Component {
     this.props.load()
     fetch('http://gmtc.applean.cn/home/index.json')
     .then(response => response.json())
-    .then(responseData => this.props.loadSuccess(responseData))
+    .then(responseData => {
+      this.props.loadSuccess(dataConverter(responseData))
+    })
     .catch(error => this.props.loadFailed(error))
   }
+}
+
+function cloneWithData (dataSource, data) {
+  if (!data) {
+    return dataSource.cloneWithRows([])
+  }
+  return dataSource.cloneWithRowsAndSections(data)
 }
 
 const styles = StyleSheet.create({
@@ -98,14 +128,14 @@ const styles = StyleSheet.create({
   },
   font: {
     fontSize: 12,
-    margin: 10
+    color: '#555555'
   }
 })
 
 const mapStateToProps = state => ({
   loading: state.data.loading,
   error: state.data.error,
-  days: state.data.data.days || []
+  days: state.data.days
 })
 
 const mapDispatchToProps = dispatch =>
