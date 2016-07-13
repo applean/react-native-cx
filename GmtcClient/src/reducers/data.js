@@ -5,7 +5,7 @@ const LOAD_FAILED = 'LOAD_FAILED'
 const initialState = {
   loading: false,
   error: null,
-  days: []
+  days: null
 }
 
 export default function reducer (state = initialState, action) {
