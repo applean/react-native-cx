@@ -11,6 +11,7 @@ export default class extends Component {
     data: PropTypes.array,
     titleSize: PropTypes.number,
     verticalWidth: PropTypes.number,
+    onPress: PropTypes.func,
     verticalHeight: PropTypes.number,
     horizontalWidth: PropTypes.number,
     horizontalHeight: PropTypes.number,
@@ -25,12 +26,13 @@ export default class extends Component {
   };
 
   static defaultProps = { // 返回默认的一些属性值
-    data: [{title: 'One', selected: true}, {title: 'Two', selected: false}, {title: 'Three', selected: false}],
+    data: ['One', 'Two', 'Three'],
     verticalWidth: 100,
     verticalHeight: 120,
     horizontalWidth: 200,
     horizontalHeight: 40,
     titleSize: 14,
+    onPress () {},
     orientation: 'horizontal',
     activeColor: 'red',
     inActiveColor: 'transparent',
@@ -40,48 +42,47 @@ export default class extends Component {
     borderRadius: 5
   };
 
+  renderTabOption (tab, index) {
+    const {orientation, onPress, activeColor, inActiveColor, titleSize, textActiveColor, textInActiveColor, selected, borderRadius} = this.props
+    const styles = createStyle(borderRadius)
+    const isTabActive = selected === index
+    const textColor = isTabActive ? textActiveColor : textInActiveColor
+    const itemStyle = orientation === 'horizontal'
+    ? (index === 0
+        ? [styles.horizontalStartItem, {borderWidth: 1}]
+        : (index < this.props.data.length - 1
+            ? [{borderWidth: 1, borderLeftWidth: 0}]
+            : [styles.horizontalEndItem, {borderWidth: 1, borderLeftWidth: 0, marginLeft: -1}]
+          )
+      )
+    : (index === 0
+        ? [styles.verticalStartItem, {borderWidth: 1}]
+        : (index < this.props.data.length - 1
+            ? [{borderWidth: 1, borderTopWidth: 0}]
+            : [styles.verticalEndItem, {borderWidth: 1, borderTopWidth: 0, marginTop: -1}]
+          )
+      )
+
+    return (
+      <TouchableOpacity key={index}
+        onPress={() => onPress(index)}
+        activeOpacity={1}
+        style={[styles.item, {backgroundColor: (isTabActive ? activeColor : inActiveColor), borderColor: activeColor}, ...itemStyle]}>
+        <Text style={{color: textColor, fontSize: titleSize}}>{tab}</Text>
+      </TouchableOpacity>)
+  }
+
   render () {
-    const styles = createStyle(this.props.borderRadius)
-    const {verticalHeight, verticalWidth, horizontalHeight, horizontalWidth, selected, data,
-      orientation, activeColor, inActiveColor, titleSize, textActiveColor, textInActiveColor} = this.props
+    const {verticalHeight, verticalWidth, horizontalHeight, horizontalWidth, data, orientation} = this.props
 
     const style = orientation === 'horizontal'
     ? [{height: horizontalHeight, width: horizontalWidth, flexDirection: 'row'}]
     : [{width: verticalWidth, height: verticalHeight, flexDirection: 'column'}]
     return (
       <View style={[...style, {backgroundColor: 'transparent'}, {borderWidth: 0}, this.props.style]}>
-        {
-          data.map((item, index) => {
-            const itemStyle = orientation === 'horizontal'
-            ? (index === 0
-                ? [styles.horizontalStartItem, {borderWidth: 1}]
-                : (index < data.length - 1
-                    ? [{borderWidth: 1, borderLeftWidth: 0}]
-                    : [styles.horizontalEndItem, {borderWidth: 1, borderLeftWidth: 0, marginLeft: -1}]
-                  )
-              )
-            : (index === 0
-                ? [styles.verticalStartItem, {borderWidth: 1}]
-                : (index < data.length - 1
-                    ? [{borderWidth: 1, borderTopWidth: 0}]
-                    : [styles.verticalEndItem, {borderWidth: 1, borderTopWidth: 0, marginTop: -1}]
-                  )
-              )
-            return (
-              <TouchableOpacity key={index}
-                onPress={() => this.onClick(item)}
-                activeOpacity={1}
-                style={[styles.item, {backgroundColor: (index === selected ? activeColor : inActiveColor), borderColor: activeColor}, ...itemStyle]}>
-                <Text style={{color: (index === selected ? textActiveColor : textInActiveColor), fontSize: titleSize}}>{item.title}</Text>
-              </TouchableOpacity>)
-          })
-        }
+        {data.map((item, index) => this.renderTabOption(item, index))}
       </View>
     )
-  }
-
-  onClick (item) {
-    item.onPress()
   }
 }
 
