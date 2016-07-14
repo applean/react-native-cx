@@ -39,6 +39,14 @@ export default class extends Component {
     )
   }
 
+  componentWillReceiveProps (nextProps) {
+    if (this.props !== nextProps) {
+      this.setState({
+        dataSource: cloneWithData(this.state.dataSource, nextProps.data)
+      })
+    }
+  }
+
   renderRow = (item) => {
     return (
       <View style={{padding: 12}}>

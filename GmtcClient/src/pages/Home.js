@@ -15,8 +15,8 @@ import * as dataActions from '../reducers/data'
 
 class Home extends Component {
 
-  constructor (props) {
-    super(props)
+  state = {
+    currentDay: 0
   };
 
   static propTypes = {
@@ -29,6 +29,7 @@ class Home extends Component {
   };
 
   render () {
+    const {currentDay} = this.state
     if (this.props.loading) {
       return (
         <View style={[styles.container, styles.center]} >
@@ -43,24 +44,27 @@ class Home extends Component {
           <Text style={{color: 'white', fontSize: 29, marginTop: 15}}>全球移动技术大会</Text>
           <Text style={{color: 'rgba(255, 255, 255, 0.7)', fontSize: 11, marginTop: 3}}>2016年6月24日－25日</Text>
           <SegmentTab titleSize={12} horizontalWidth={160} horizontalHeight={27} activeColor='rgba(255,255,255,0.5)'
+            selected={currentDay}
             data={[
               {
-                title: '第一天', selected: true,
+                title: '第一天',
                 onPress: () =>
                 this.setState({
+                  currentDay: 0
                 })
               },
               {
-                title: '第二天', selected: false,
+                title: '第二天',
                 onPress: () =>
                 this.setState({
+                  currentDay: 1
                 })
               }
             ]}
             style={{marginTop: 10}}/>
         </View>
         <PureListView
-          data={this.props.days[0].topics}
+          data={this.props.days[currentDay].topics}
         />
       </View>
     )
