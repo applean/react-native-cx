@@ -3,9 +3,9 @@ const LOAD_SUCCESS = 'LOAD_SUCCESS'
 const LOAD_FAILED = 'LOAD_FAILED'
 
 const initialState = {
-  loading: false,
+  loading: true,
   error: null,
-  days: null
+  days: []
 }
 
 export default function reducer (state = initialState, action) {

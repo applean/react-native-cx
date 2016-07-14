@@ -18,25 +18,24 @@ class Home extends Component {
   constructor (props) {
     super(props)
   };
-  time = 0;
+
   static propTypes = {
     navigator: PropTypes.object,
     load: PropTypes.func.isRequired,
     loadSuccess: PropTypes.func.isRequired,
     loadFailed: PropTypes.func.isRequired,
     loading: PropTypes.bool.isRequired,
-    days: PropTypes.array
+    days: PropTypes.array.isRequired
   };
 
   render () {
-    if (this.props.loading || !this.props.days) {
+    if (this.props.loading) {
       return (
         <View style={[styles.container, styles.center]} >
           <Text>Loading...</Text>
         </View>
       )
     }
-
     return (
       <View style={styles.container}>
         <View style={[styles.center, {backgroundColor: '#1e4b9a', height: 250, paddingTop: 60}]}>
