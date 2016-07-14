@@ -49,7 +49,7 @@ export default class extends Component {
 
   renderRow = (item) => {
     return (
-      <View style={{padding: 12}}>
+      <View style={{padding: 14}}>
         <Text style={{fontSize: 16, color: '#6199b1'}}>{item.title}</Text>
         {
           item.author &&
@@ -91,7 +91,7 @@ function cloneWithData (dataSource, data) {
 
 const styles = StyleSheet.create({
   font: {
-    fontSize: 12,
+    fontSize: 12.5,
     color: '#555555'
   }
 })

@@ -1,24 +1,20 @@
 /*global fetch*/
 import React, { Component, PropTypes } from 'react'
-import SegmentTab from '../components/SegmentTab'
 import PureListView from '../components/PureListView'
+import {connect} from 'react-redux'
+import {bindActionCreators} from 'redux'
+import dataConverter from '../helper/dataHelper'
+import * as dataActions from '../reducers/data'
+import ScrollableTabView from 'react-native-scrollable-tab-view'
+import SegmentTabWrapper from '../components/SegmentTabWrapper'
 import {
   View,
   Text,
   StyleSheet,
   Image
 } from 'react-native'
-import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
-import dataConverter from '../helper/dataHelper'
-import * as dataActions from '../reducers/data'
 
 class Home extends Component {
-
-  state = {
-    currentDay: 0
-  };
-
   static propTypes = {
     navigator: PropTypes.object,
     load: PropTypes.func.isRequired,
@@ -29,7 +25,6 @@ class Home extends Component {
   };
 
   render () {
-    const {currentDay} = this.state
     if (this.props.loading) {
       return (
         <View style={[styles.container, styles.center]} >
@@ -39,33 +34,17 @@ class Home extends Component {
     }
     return (
       <View style={styles.container}>
-        <View style={[styles.center, {backgroundColor: '#1e4b9a', height: 250, paddingTop: 60}]}>
+        <View style={[styles.center, {backgroundColor: '#1e4b9a', height: 250, paddingTop: 25}]}>
           <Image source={require('../assets/gmtc.png')} style={{padding: 10, height: 60, width: 200}} />
           <Text style={{color: 'white', fontSize: 29, marginTop: 15}}>全球移动技术大会</Text>
           <Text style={{color: 'rgba(255, 255, 255, 0.7)', fontSize: 11, marginTop: 3}}>2016年6月24日－25日</Text>
-          <SegmentTab titleSize={12} horizontalWidth={160} horizontalHeight={27} activeColor='rgba(255,255,255,0.5)'
-            selected={currentDay}
-            data={[
-              {
-                title: '第一天',
-                onPress: () =>
-                this.setState({
-                  currentDay: 0
-                })
-              },
-              {
-                title: '第二天',
-                onPress: () =>
-                this.setState({
-                  currentDay: 1
-                })
-              }
-            ]}
-            style={{marginTop: 10}}/>
         </View>
-        <PureListView
-          data={this.props.days[currentDay].topics}
-        />
+        <ScrollableTabView style={{marginTop: -41}}
+          renderTabBar={() =>
+            <SegmentTabWrapper style={{marginBottom: 7}} borderRadius={13.5} titleSize={12} horizontalWidth={160} horizontalHeight={27} activeColor='rgba(255,255,255,0.5)'/>}>
+          <PureListView data={this.props.days[0].topics} tabLabel='第一天'/>
+          <PureListView data={this.props.days[1].topics} tabLabel='第二天'/>
+        </ScrollableTabView>
       </View>
     )
   }
