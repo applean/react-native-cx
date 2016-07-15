@@ -7,11 +7,15 @@ import dataConverter from '../helper/dataHelper'
 import * as dataActions from '../reducers/data'
 import ScrollableTabView from 'react-native-scrollable-tab-view'
 import SegmentTabWrapper from '../components/SegmentTabWrapper'
+import TopicsCarousel from './TopicsCarousel'
+import TopicDetail from './TopicDetail'
+import Topic from './Topic'
 import {
   View,
   Text,
   StyleSheet,
-  Image
+  Image,
+  TouchableOpacity
 } from 'react-native'
 
 class Home extends Component {
@@ -42,9 +46,36 @@ class Home extends Component {
         <ScrollableTabView style={{marginTop: -41}}
           renderTabBar={() =>
             <SegmentTabWrapper style={{marginBottom: 7}} borderRadius={13.5} titleSize={12} horizontalWidth={160} horizontalHeight={27} activeColor='rgba(255,255,255,0.5)'/>}>
-          <PureListView data={this.props.days[0].topics} tabLabel='第一天'/>
-          <PureListView data={this.props.days[1].topics} tabLabel='第二天'/>
+          <PureListView data={this.props.days[0].topics} tabLabel='第一天'
+            renderRow={this.renderRow} renderSectionHeader={this.renderSectionHeader}/>
+          <PureListView data={this.props.days[1].topics} tabLabel='第二天'
+            renderRow={this.renderRow} renderSectionHeader={this.renderSectionHeader}/>
         </ScrollableTabView>
+      </View>
+    )
+  }
+
+  renderRow = (item) => {
+    return (
+      <TouchableOpacity onPress={() => this.JumpToGallery(item)}>
+        <Topic data={item}/>
+      </TouchableOpacity>
+    )
+  }
+
+  JumpToGallery = (item) => {
+    this.props.navigator.push({
+      component: TopicDetail,
+      data: item
+    })
+  }
+
+  renderSectionHeader = (sectionData, time) => {
+    const startTime = sectionData[0].start_at.slice(11, 16)
+    const endTime = sectionData[0].end_at.slice(11, 16)
+    return (
+      <View style={{backgroundColor: '#eeeeee'}}>
+        <Text style={[{margin: 6, marginLeft: 8}, styles.font]}>{startTime}~{endTime}</Text>
       </View>
     )
   }
@@ -71,6 +102,10 @@ const styles = StyleSheet.create({
   center: {
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  font: {
+    fontSize: 12.5,
+    color: '#555555'
   }
 })
 
