@@ -1,21 +1,26 @@
 import React, {Component, PropTypes} from 'react'
 import Topic from './Topic'
+import {connect} from 'react-redux'
+import {subscribe, unsubscribe} from '../reducers/schedule'
+import SubscribeButton from '../components/SubscribeButton'
 import {
   View,
   Text,
   ScrollView,
-  TouchableOpacity,
   StyleSheet
 } from 'react-native'
 const AWESOME_COLOR = ['red', 'orange', 'green', 'cyan', 'blue', 'purple']
-export default class extends Component {
+export default class TopicDetail extends Component {
 
   static propTypes = {
-    topic: PropTypes.object
+    topic: PropTypes.object,
+    subscribe: PropTypes.func,
+    unsubscribe: PropTypes.func,
+    isSubscribed: PropTypes.bool
   }
 
   render () {
-    const {topic} = this.props
+    const {topic, isSubscribed} = this.props
     const address = topic.room.name
     const duration = getDuration(topic.start_at, topic.end_at)
     const addressColor = AWESOME_COLOR[topic.id % AWESOME_COLOR.length]
@@ -30,17 +35,19 @@ export default class extends Component {
           <Text style={styles.description}>{topic.description}</Text>
         </ScrollView>
         <View style={styles.footer}>
-          <TouchableOpacity activeOpacity={0.7} onPress={this.toggleAdded} style={styles.button}>
-            <Text style={{color: 'white'}}>订   阅</Text>
-          </TouchableOpacity>
+          <SubscribeButton isSubscribed={isSubscribed} onPress={this.toggleAdded} />
         </View>
       </View>
     )
   }
 
   toggleAdded = () => {
-    console.log('added')
-  }
+    if (this.props.isSubscribed) {
+      this.props.unsubscribe()
+    } else {
+      this.props.subscribe()
+    }
+  };
 }
 
 function getDuration (start, end) {
@@ -81,13 +88,21 @@ const styles = StyleSheet.create({
   footer: {
     borderTopWidth: 1,
     borderColor: '#eee'
-  },
-  button: {
-    height: 40,
-    marginTop: 10,
-    borderRadius: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#6A6AD5'
   }
 })
+
+const mapStateToProps = (state, props) => ({
+  loading: state.schedule.loading,
+  error: state.schedule.error,
+  isSubscribed: state.schedule.subscription.includes(props.topic.id)
+})
+
+const mapDispatchToProps = (dispatch, props) => {
+  const id = props.topic.id
+  return {
+    subscribe: () => dispatch(subscribe(id)),
+    unsubscribe: () => dispatch(unsubscribe(id))
+  }
+}
+
+module.exports = connect(mapStateToProps, mapDispatchToProps)(TopicDetail)
