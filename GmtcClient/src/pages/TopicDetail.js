@@ -11,14 +11,14 @@ const AWESOME_COLOR = ['red', 'orange', 'green', 'cyan', 'blue', 'purple']
 export default class extends Component {
 
   static propTypes = {
-    data: PropTypes.object
+    topic: PropTypes.object
   }
 
   render () {
-    const {data} = this.props
-    const address = data.room.name
-    const duration = getDuration(data.start_at, data.end_at)
-    const addressColor = AWESOME_COLOR[data.id % AWESOME_COLOR.length]
+    const {topic} = this.props
+    const address = topic.room.name
+    const duration = getDuration(topic.start_at, topic.end_at)
+    const addressColor = AWESOME_COLOR[topic.id % AWESOME_COLOR.length]
     return (
       <View style={styles.container}>
         <View style={styles.header}>
@@ -26,8 +26,8 @@ export default class extends Component {
           <Text style={styles.headerFont}> - {duration} min</Text>
         </View>
         <ScrollView style={styles.content}>
-          <Topic data={data} style={{paddingLeft: 0, paddingRight: 0}}/>
-          <Text style={styles.description}>{data.description}</Text>
+          <Topic topic={topic} style={{paddingLeft: 0, paddingRight: 0}}/>
+          <Text style={styles.description}>{topic.description}</Text>
         </ScrollView>
         <View style={styles.footer}>
           <TouchableOpacity activeOpacity={0.7} onPress={this.toggleAdded} style={styles.button}>

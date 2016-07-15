@@ -7,7 +7,6 @@ import dataConverter from '../helper/dataHelper'
 import * as dataActions from '../reducers/data'
 import ScrollableTabView from 'react-native-scrollable-tab-view'
 import SegmentTabWrapper from '../components/SegmentTabWrapper'
-import TopicsCarousel from './TopicsCarousel'
 import TopicDetail from './TopicDetail'
 import Topic from './Topic'
 import {
@@ -57,16 +56,17 @@ class Home extends Component {
 
   renderRow = (item) => {
     return (
-      <TouchableOpacity onPress={() => this.JumpToGallery(item)}>
-        <Topic data={item}/>
+      <TouchableOpacity onPress={() => this.goToCarousel(item)}>
+        <Topic topic={item}/>
       </TouchableOpacity>
     )
   }
 
-  JumpToGallery = (item) => {
+  goToCarousel = (item) => {
+    // const dayId = item.room.day_id
     this.props.navigator.push({
       component: TopicDetail,
-      data: item
+      topic: item
     })
   }
 
