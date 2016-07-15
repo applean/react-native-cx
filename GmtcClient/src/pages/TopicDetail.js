@@ -32,7 +32,7 @@ export default class TopicDetail extends Component {
         </View>
         <ScrollView style={styles.content}>
           <Topic topic={topic} style={{paddingLeft: 0, paddingRight: 0}}/>
-          <Text style={styles.description}>{topic.description}</Text>
+          <Text style={styles.description}>{convert(topic.description)}</Text>
         </ScrollView>
         <View style={styles.footer}>
           <SubscribeButton isSubscribed={isSubscribed} onPress={this.toggleAdded} />
@@ -50,6 +50,10 @@ export default class TopicDetail extends Component {
   };
 }
 
+function convert (input) {
+  return input.replace(/\\n/g, '\n')
+}
+
 function getDuration (start, end) {
   const startHour = start.slice(11, 13)
   const startMin = start.slice(14, 16)
@@ -62,7 +66,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    borderRadius: 5,
+    borderRadius: 4,
     padding: 10
   },
   header: {
