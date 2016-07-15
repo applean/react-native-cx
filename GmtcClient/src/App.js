@@ -1,10 +1,13 @@
 import React, { Component } from 'react'
 import reducers from './reducers'
-import { Provider } from 'react-redux'
+import {Provider} from 'react-redux'
+import {persistStore, autoRehydrate} from 'redux-persist'
 import {createStore} from 'redux'
+import {AsyncStorage} from 'react-native'
 import Home from './pages/Home'
 
-const stores = createStore(reducers)
+const store = autoRehydrate()(createStore)(reducers)
+persistStore(store, {storage: AsyncStorage})
 import {
   Navigator
 } from 'react-native'
@@ -12,7 +15,7 @@ import {
 export default class extends Component {
   render () {
     return (
-      <Provider store={stores}>
+      <Provider store={store}>
         <Navigator
           initialRoute={{
             component: Home

@@ -12,6 +12,7 @@
     "react-native-scrollable-tab-view": "^0.5.3",
     "react-redux": "^4.2.0",
     "redux": "^3.4.0",
+    "redux-persist": "^3.2.2",
     "redux-thunk": "^1.0.3",
     "underscore": "^1.8.3"
   },
