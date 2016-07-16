@@ -10,7 +10,8 @@ import {
 export default class extends Component {
   static propTypes = {
     topic: PropTypes.object,
-    style: View.propTypes.style
+    style: View.propTypes.style,
+    isSubscribed: PropTypes.bool
   };
 
   render () {
