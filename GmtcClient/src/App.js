@@ -4,7 +4,7 @@ import {Provider} from 'react-redux'
 import {persistStore, autoRehydrate} from 'redux-persist'
 import {createStore} from 'redux'
 import {AsyncStorage} from 'react-native'
-import Home from './pages/Home'
+import Home from './pages/Schedules'
 
 const store = autoRehydrate()(createStore)(reducers)
 persistStore(store, {storage: AsyncStorage})
