@@ -10,6 +10,7 @@
     "react-native": "^0.29.0",
     "react-native-navigationbar": "^0.3.6",
     "react-native-scrollable-tab-view": "^0.5.3",
+    "react-native-tab-navigator": "^0.3.2",
     "react-redux": "^4.2.0",
     "redux": "^3.4.0",
     "redux-persist": "^3.2.2",
