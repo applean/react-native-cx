@@ -16,7 +16,8 @@ export default class TopicDetail extends Component {
     topic: PropTypes.object,
     subscribe: PropTypes.func,
     unsubscribe: PropTypes.func,
-    isSubscribed: PropTypes.bool
+    isSubscribed: PropTypes.bool,
+    style: View.propTypes.style
   }
 
   render () {
@@ -25,7 +26,7 @@ export default class TopicDetail extends Component {
     const duration = getDuration(topic.start_at, topic.end_at)
     const addressColor = AWESOME_COLOR[topic.id % AWESOME_COLOR.length]
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, this.props.style]}>
         <View style={styles.header}>
           <Text style={[styles.headerFont, {color: addressColor}]}>{address}</Text>
           <Text style={styles.headerFont}> - {duration} min</Text>
@@ -66,7 +67,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    borderRadius: 4,
     padding: 10
   },
   header: {
