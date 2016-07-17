@@ -1,6 +1,6 @@
 /*global fetch*/
 import React, { Component, PropTypes } from 'react'
-import PureListView from '../components/FakeListView'
+import PureListView from '../components/PureListView'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import genSchedules from '../helper/dataHelper'
@@ -56,12 +56,9 @@ class Schedules extends Component {
     )
   }
 
-  renderRow = (item, index, renderSeparator) => {
+  renderRow = (item, index) => {
     return (
       <TouchableOpacity onPress={() => this.goToCarousel(item)}>
-        {
-          index > 0 && renderSeparator()
-        }
         <Topic topic={item}/>
       </TouchableOpacity>
     )

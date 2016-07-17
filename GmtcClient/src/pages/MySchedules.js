@@ -29,6 +29,9 @@ class MySchedules extends Component {
           <Image source={require('../assets/gmtc.png')} style={{padding: 10, height: 60, width: 200}} />
           <Text style={{color: 'white', fontSize: 29, marginTop: 15}}>全球移动技术大会</Text>
           <Text style={{color: 'rgba(255, 255, 255, 0.7)', fontSize: 11, marginTop: 3}}>2016年6月24日－25日</Text>
+          <View style={styles.title}>
+            <Text style={{color: 'white', fontSize: 16}}>我 的 订 阅</Text>
+          </View>
         </View>
         <PureListView data={this.props.topics}
           renderRow={this.renderRow}
@@ -40,10 +43,8 @@ class MySchedules extends Component {
   renderRow = (item, index, renderSeparator) => {
     return (
       <TouchableOpacity onPress={() => this.goToCarousel(item)}>
-        {
-          index > 0 && renderSeparator()
-        }
         <Topic topic={item}/>
+        {renderSeparator(item, index)}
       </TouchableOpacity>
     )
   }
@@ -80,7 +81,15 @@ const styles = StyleSheet.create({
   font: {
     fontSize: 12.5,
     color: '#555555'
-  }
+  },
+  title: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 44,
+    justifyContent: 'center',
+    alignItems: 'center'}
 })
 
 const mapStateToProps = state => ({
