@@ -23,6 +23,7 @@ export default class extends Component {
   }
 
   render () {
+    console.log('test:', this.state.dataSource.getRowCount())
     return (
       <ListView
         {...this.props}
@@ -34,7 +35,7 @@ export default class extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (this.props !== nextProps) {
+    if (this.props.data !== nextProps.data) {
       this.setState({
         dataSource: cloneWithData(this.state.dataSource, nextProps.data)
       })

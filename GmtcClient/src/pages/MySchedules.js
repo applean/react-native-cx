@@ -3,8 +3,6 @@ import PureListView from '../components/PureListView'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as dataActions from '../reducers/data'
-import ScrollableTabView from 'react-native-scrollable-tab-view'
-import SegmentTabWrapper from '../components/SegmentTabWrapper'
 import TopicDetail from './TopicDetail'
 import Topic from './Topic'
 import {
@@ -21,7 +19,7 @@ class MySchedules extends Component {
     load: PropTypes.func.isRequired,
     loadSuccess: PropTypes.func.isRequired,
     loadFailed: PropTypes.func.isRequired,
-    topics: PropTypes.object.isRequired
+    topics: PropTypes.object
   };
 
   render () {
@@ -32,12 +30,10 @@ class MySchedules extends Component {
           <Text style={{color: 'white', fontSize: 29, marginTop: 15}}>全球移动技术大会</Text>
           <Text style={{color: 'rgba(255, 255, 255, 0.7)', fontSize: 11, marginTop: 3}}>2016年6月24日－25日</Text>
         </View>
-        <ScrollableTabView style={{marginTop: -41}}
-          renderTabBar={() =>
-            <SegmentTabWrapper style={{marginBottom: 7}} borderRadius={13.5} titleSize={12} horizontalWidth={160} horizontalHeight={27} activeColor='rgba(255,255,255,0.5)'/>}>
-          <PureListView data={this.props.topics}
-            renderRow={this.renderRow} renderSectionHeader={this.renderSectionHeader}/>
-        </ScrollableTabView>
+        <PureListView data={this.props.topics}
+          enableEmptySections
+          renderRow={this.renderRow}
+          renderSectionHeader={this.renderSectionHeader}/>
       </View>
     )
   }
@@ -60,6 +56,9 @@ class MySchedules extends Component {
 
   renderSectionHeader = (sectionData, time) => {
     const dayName = ['第一天', '第二天']
+    if (sectionData.length === 0) {
+      return null
+    }
     return (
       <View style={{backgroundColor: '#eeeeee'}}>
         <Text style={[{margin: 6, marginLeft: 8}, styles.font]}>{dayName[time - 1]}</Text>
