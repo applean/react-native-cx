@@ -47,10 +47,10 @@ class Schedules extends Component {
             <SegmentTabWrapper style={{marginBottom: 7}} borderRadius={13.5} titleSize={12} horizontalWidth={160} horizontalHeight={27} activeColor='rgba(255,255,255,0.5)'/>}>
           <PureListView data={this.props.days[0].topics} tabLabel='第一天'
             renderRow={this.renderRow}
-            renderSeparator={this.renderSeparator}
             renderSectionHeader={this.renderSectionHeader}/>
           <PureListView data={this.props.days[1].topics} tabLabel='第二天'
-            renderRow={this.renderRow} renderSectionHeader={this.renderSectionHeader}/>
+            renderRow={this.renderRow}
+            renderSectionHeader={this.renderSectionHeader}/>
         </ScrollableTabView>
       </View>
     )
@@ -82,9 +82,6 @@ class Schedules extends Component {
     )
   }
 
-  renderSeparator = (sectionID, rowID) =>
-    <View key={`${sectionID}vs${rowID}`} style={styles.separator} />
-
   componentDidMount () {
     this.loadData()
   }
@@ -111,10 +108,6 @@ const styles = StyleSheet.create({
   font: {
     fontSize: 12.5,
     color: '#555555'
-  },
-  separator: {
-    height: 1,
-    backgroundColor: '#eee'
   }
 })
 

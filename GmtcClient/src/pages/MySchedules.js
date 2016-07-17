@@ -31,7 +31,6 @@ class MySchedules extends Component {
           <Text style={{color: 'rgba(255, 255, 255, 0.7)', fontSize: 11, marginTop: 3}}>2016年6月24日－25日</Text>
         </View>
         <PureListView data={this.props.topics}
-          enableEmptySections
           renderRow={this.renderRow}
           renderSectionHeader={this.renderSectionHeader}/>
       </View>
