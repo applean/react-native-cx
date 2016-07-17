@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import PureListView from '../components/PureListView'
+import PureListView from '../components/FakeListView'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as dataActions from '../reducers/data'
@@ -37,9 +37,12 @@ class MySchedules extends Component {
     )
   }
 
-  renderRow = (item) => {
+  renderRow = (item, index, renderSeparator) => {
     return (
       <TouchableOpacity onPress={() => this.goToCarousel(item)}>
+        {
+          index > 0 && renderSeparator()
+        }
         <Topic topic={item}/>
       </TouchableOpacity>
     )
@@ -59,7 +62,7 @@ class MySchedules extends Component {
       return null
     }
     return (
-      <View style={{backgroundColor: '#eeeeee'}}>
+      <View key={time} style={{backgroundColor: '#eeeeee'}}>
         <Text style={[{margin: 6, marginLeft: 8}, styles.font]}>{dayName[time - 1]}</Text>
       </View>
     )
