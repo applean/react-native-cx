@@ -13,14 +13,15 @@ const initialState = {
 }
 
 export default function reducer (state = initialState, action) {
-  let topic, dayId
+  let topic, dayId, oldDaySchedule
   let subscribeTemp = {}
-  let unsubscribeTemp
+  let unsubscribeTemp = {}
   if (action.type === SUBSCRIBE || action.type === UNSUBSCRIBE) {
     topic = action.topic
     dayId = topic.room.day_id
-    subscribeTemp[dayId] = [...state.mySchedules[dayId], topic]
-    unsubscribeTemp[dayId] = state.mySchedules[dayId].filter(item => item.id !== topic.id)
+    oldDaySchedule = state.mySchedules[dayId] || []
+    subscribeTemp[dayId] = [...oldDaySchedule, topic]
+    unsubscribeTemp[dayId] = oldDaySchedule.filter(item => item.id !== topic.id)
   }
 
   switch (action.type) {
