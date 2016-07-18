@@ -11,7 +11,8 @@ export default class extends Component {
     data: PropTypes.object,
     needSeparator: PropTypes.bool,
     renderRow: PropTypes.func,
-    renderSectionHeader: PropTypes.func
+    renderSectionHeader: PropTypes.func,
+    renderEmptyView: PropTypes.func
   };
 
   static defaultProps = {
@@ -19,10 +20,18 @@ export default class extends Component {
   }
 
   render () {
+    const {data, renderEmptyView} = this.props
+    let length = 0
+    for (let day in this.props.data) {
+      length += data[day].length
+    }
+    console.log('length: ', length)
     return (
-      <ScrollView>
-        {this.renderContent()}
-      </ScrollView>
+        length > 0
+      ? <ScrollView>
+          {this.renderContent()}
+        </ScrollView>
+      : renderEmptyView()
     )
   }
 

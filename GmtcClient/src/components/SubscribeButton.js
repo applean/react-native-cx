@@ -11,6 +11,7 @@ export default class extends Component {
   static propTypes={
     isSubscribed: PropTypes.bool,
     onPress: PropTypes.func,
+    message: PropTypes.string,
     style: View.propTypes.style
   };
 
@@ -20,7 +21,7 @@ export default class extends Component {
 
   render () {
     const {isSubscribed, onPress, style} = this.props
-    const promptMessage = isSubscribed ? '取消订阅' : '订    阅'
+    const promptMessage = this.props.message || isSubscribed ? '取消订阅' : '订    阅'
     const color = isSubscribed ? '#4DC7A4' : '#6A6AD5'
     return (
       <TouchableOpacity activeOpacity={0.7} onPress={onPress} style={[styles.button, {backgroundColor: color}, style]}>

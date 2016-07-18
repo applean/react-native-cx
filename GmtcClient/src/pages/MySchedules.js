@@ -5,6 +5,7 @@ import {bindActionCreators} from 'redux'
 import * as dataActions from '../reducers/data'
 import TopicsCarousel from './TopicsCarousel'
 import Topic from './Topic'
+import SubscribeButton from '../components/SubscribeButton'
 import {
   View,
   Text,
@@ -20,7 +21,8 @@ class MySchedules extends Component {
     loadSuccess: PropTypes.func.isRequired,
     loadFailed: PropTypes.func.isRequired,
     days: PropTypes.array.isRequired,
-    topics: PropTypes.object
+    topics: PropTypes.object,
+    emptyOperation: PropTypes.func
   };
 
   render () {
@@ -36,7 +38,18 @@ class MySchedules extends Component {
         </View>
         <PureListView data={this.props.topics}
           renderRow={this.renderRow}
+          renderEmptyView={this.renderEmptyView}
           renderSectionHeader={this.renderSectionHeader}/>
+      </View>
+    )
+  }
+
+  renderEmptyView = () => {
+    return (
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <Image source={require('../assets/no-topics-added.png')} />
+        <Text style={styles.message}>您订阅的主题将会{'\n'}展现于此</Text>
+        <SubscribeButton style={{width: 220, marginTop: 15}} onPress={this.props.emptyOperation}/>
       </View>
     )
   }
@@ -91,7 +104,13 @@ const styles = StyleSheet.create({
     right: 0,
     height: 44,
     justifyContent: 'center',
-    alignItems: 'center'}
+    alignItems: 'center'},
+  message: {
+    textAlign: 'center',
+    fontSize: 14,
+    lineHeight: 22,
+    color: '#7a8698'
+  }
 })
 
 const mapStateToProps = state => ({
