@@ -9,6 +9,8 @@ import Home from './pages/MainScreen'
 const store = autoRehydrate()(createStore)(reducers)
 persistStore(store, {storage: AsyncStorage})
 import {
+  StatusBar,
+  View,
   Navigator
 } from 'react-native'
 
@@ -16,13 +18,18 @@ export default class extends Component {
   render () {
     return (
       <Provider store={store}>
-        <Navigator
-          initialRoute={{
-            component: Home
-          }}
-          renderScene={(route, navigator) => {
-            return <route.component navigator={navigator} {...route} {...route.passProps}/>
-          }}/>
+        <View style={{flex: 1}}>
+          <StatusBar
+            barStyle='light-content'
+          />
+          <Navigator
+            initialRoute={{
+              component: Home
+            }}
+            renderScene={(route, navigator) => {
+              return <route.component navigator={navigator} {...route} {...route.passProps}/>
+            }}/>
+        </View>
       </Provider>
     )
   }

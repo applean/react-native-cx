@@ -1,8 +1,12 @@
 import React, {Component, PropTypes} from 'react'
 import TopicDetail from './TopicDetail'
 import Carousel from '../components/Carousel'
+import F8PageControl from '../components/F8PageControl'
 import {
   View,
+  Text,
+  Image,
+  TouchableOpacity,
   StyleSheet
 } from 'react-native'
 
@@ -10,7 +14,8 @@ export default class extends Component {
 
   static propTypes = {
     day: PropTypes.object,
-    topic: PropTypes.object
+    topic: PropTypes.object,
+    navigator: PropTypes.object
   };
 
   constructor (props) {
@@ -20,13 +25,16 @@ export default class extends Component {
     const allTopics = this.props.day.topics
     for (let sectionID in allTopics) {
       const sectionLength = allTopics[sectionID].length
+      const startTime = allTopics[sectionID][0].start_at.slice(11, 16)
+      const endTime = allTopics[sectionID][0].end_at.slice(11, 16)
+
       let rowIndex = 0
       allTopics[sectionID].forEach(topic => {
         flatTopicsList.push(topic)
         contexts.push({
           rowIndex,
           sectionLength,
-          sectionTitle: sectionID
+          sectionTitle: `${startTime}~${endTime}`
         })
         rowIndex++
       })
@@ -40,6 +48,7 @@ export default class extends Component {
       flatTopicsList,
       contexts
     }
+    this.dismiss = this.dismiss.bind(this)
     this.renderCard = this.renderCard.bind(this)
     this.handleIndexChange = this.handleIndexChange.bind(this)
   }
@@ -48,6 +57,23 @@ export default class extends Component {
     const {rowIndex, sectionLength, sectionTitle} = this.state.contexts[this.state.selectedIndex]
     return (
       <View style={styles.container}>
+        <View style={styles.header}>
+          <TouchableOpacity style={styles.headerLeft} onPress={this.dismiss}>
+            <Image source={require('../assets/x-white.png')} />
+          </TouchableOpacity>
+          <View style={styles.headerContent}>
+            <Text style={styles.title}>
+              <Text style={styles.day}>{this.props.day.name}</Text>
+              {'\n'}
+              <Text style={styles.time}>{sectionTitle}</Text>
+            </Text>
+            <F8PageControl
+              count={sectionLength}
+              selectedIndex={rowIndex}
+            />
+          </View>
+          <View style={{flex: 1}}/>
+        </View>
         <Carousel
           count={this.state.count}
           selectedIndex={this.state.selectedIndex}
@@ -71,14 +97,29 @@ export default class extends Component {
   handleIndexChange (selectedIndex) {
     this.setState({ selectedIndex })
   }
+
+  dismiss () {
+    this.props.navigator.pop()
+  }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    backgroundColor: 'black'
+  },
+  header: {
+    paddingTop: 20,
+    flexDirection: 'row'
+  },
+  headerLeft: {
+    flex: 1,
+    justifyContent: 'center',
+    paddingLeft: 10
   },
   headerContent: {
-    height: 65,
+    flex: 3,
+    height: 44,
     alignItems: 'center',
     justifyContent: 'center'
   },
@@ -89,10 +130,6 @@ const styles = StyleSheet.create({
   },
   day: {
     fontWeight: 'bold'
-  },
-  time: {
-    fontWeight: 'bold',
-    fontSize: 17
   },
   card: {
     borderRadius: 2,
