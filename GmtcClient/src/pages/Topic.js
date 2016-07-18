@@ -14,8 +14,12 @@ export default class extends Component {
     isSubscribed: PropTypes.bool
   };
 
+  static defaultProps = {
+    isSubscribed: false
+  }
+
   render () {
-    const {topic, style} = this.props
+    const {topic, style, isSubscribed} = this.props
     return (
       <View style={[{padding: 14}, style]}>
         <Text numberOfLines={1} style={{fontSize: 16, color: '#6199b1'}}>{topic.title}</Text>
@@ -35,6 +39,9 @@ export default class extends Component {
             </View>
           </View>
         }
+        {isSubscribed &&
+          <Image style={styles.subscribedLabel} source={require('../assets/added-cell.png')} />
+        }
       </View>
     )
   }
@@ -44,5 +51,12 @@ const styles = StyleSheet.create({
   font: {
     fontSize: 12.5,
     color: '#555555'
+  },
+  subscribedLabel: {
+    height: 30,
+    width: 30,
+    position: 'absolute',
+    top: 0,
+    right: 0
   }
 })

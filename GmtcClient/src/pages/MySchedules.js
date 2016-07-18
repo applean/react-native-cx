@@ -44,7 +44,7 @@ class MySchedules extends Component {
   renderRow = (item, index, renderSeparator) => {
     return (
       <TouchableOpacity onPress={() => this.goToCarousel(item)}>
-        <Topic topic={item}/>
+        <Topic topic={item} isSubscribed/>
         {renderSeparator(item, index)}
       </TouchableOpacity>
     )

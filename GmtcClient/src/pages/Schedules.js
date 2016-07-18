@@ -24,7 +24,8 @@ class Schedules extends Component {
     loadSuccess: PropTypes.func.isRequired,
     loadFailed: PropTypes.func.isRequired,
     loading: PropTypes.bool.isRequired,
-    days: PropTypes.array.isRequired
+    days: PropTypes.array.isRequired,
+    subscription: PropTypes.array
   };
 
   render () {
@@ -59,7 +60,7 @@ class Schedules extends Component {
   renderRow = (item, index) => {
     return (
       <TouchableOpacity onPress={() => this.goToCarousel(item)}>
-        <Topic topic={item}/>
+        <Topic topic={item} isSubscribed={this.props.subscription.includes(item.id)}/>
       </TouchableOpacity>
     )
   }
@@ -115,7 +116,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => ({
   loading: state.data.loading,
   error: state.data.error,
-  days: state.data.days
+  days: state.data.days,
+  subscription: state.schedule.subscription
 })
 
 const mapDispatchToProps = dispatch =>
