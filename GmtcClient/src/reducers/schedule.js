@@ -9,7 +9,7 @@ const initialState = {
   subscribing: true,
   error: null,
   subscription: [],
-  mySchedules: null
+  mySchedules: {}
 }
 
 export default function reducer (state = initialState, action) {
