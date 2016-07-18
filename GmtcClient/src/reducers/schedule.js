@@ -13,23 +13,19 @@ const initialState = {
 }
 
 export default function reducer (state = initialState, action) {
-  let topic, dayId, oldDaySchedule
-  let subscribeTemp = {}
-  let unsubscribeTemp = {}
-  if (action.type === SUBSCRIBE || action.type === UNSUBSCRIBE) {
-    topic = action.topic
-    dayId = topic.room.day_id
-    oldDaySchedule = state.mySchedules[dayId] || []
-    subscribeTemp[dayId] = [...oldDaySchedule, topic]
-    unsubscribeTemp[dayId] = oldDaySchedule.filter(item => item.id !== topic.id)
-  }
-
   switch (action.type) {
     case SUBSCRIBE:
+      const oldDaySchedule = state.mySchedules[action.topic.room.day_id] || []
+      const topics = [...oldDaySchedule, action.topic]
       return {
         ...state,
-        subscription: [...state.subscription, topic.id],
-        mySchedules: {...state.mySchedules, ...subscribeTemp},
+        subscription: [
+          ...state.subscription,
+          action.topic.id
+        ],
+        mySchedules: {
+          ...state.mySchedules,
+          [action.topic.room.day_id]: topics},
         error: null
       }
     case SUBSCRIBE_SUCCESS:
@@ -45,10 +41,14 @@ export default function reducer (state = initialState, action) {
         error: action.error
       }
     case UNSUBSCRIBE:
+      const dayId = action.topic.room.day_id
       return {
         ...state,
-        subscription: state.subscription.filter(item => item !== topic.id),
-        mySchedules: {...state.mySchedules, ...unsubscribeTemp},
+        subscription: state.subscription.filter(item => item !== action.topic.id),
+        mySchedules: {
+          ...state.mySchedules,
+          [dayId]: (state.mySchedules[dayId] || []).filter(item => item.id !== action.topic.id)
+        },
         error: null
       }
     case UNSUBSCRIBE_SUCCESS:

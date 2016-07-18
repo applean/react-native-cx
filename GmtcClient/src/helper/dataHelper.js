@@ -21,14 +21,18 @@ export default function (data) {
 
 export function combineData (days, subscription) {
   return days.map(day => {
+    const newTopics = {}
     for (let sectionID in day.topics) {
       let section = day.topics[sectionID].map(
         topic => {
-          topic.isSubscribed = subscription.includes(topic.id)
-          return topic
+          return {
+            ...topic,
+            isSubscribed: subscription.indexOf(topic.id) > -1
+          }
         })
       day.topics[sectionID] = section
+      newTopics[sectionID] = section
     }
-    return day
+    return {...day, topics: newTopics}
   })
 }
