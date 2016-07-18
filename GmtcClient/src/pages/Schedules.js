@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from 'react'
 import PureListView from '../components/PureListView'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import genSchedules from '../helper/dataHelper'
+import genSchedules, {combineData} from '../helper/dataHelper'
 import * as dataActions from '../reducers/data'
 import ScrollableTabView from 'react-native-scrollable-tab-view'
 import SegmentTabWrapper from '../components/SegmentTabWrapper'
@@ -24,8 +24,7 @@ class Schedules extends Component {
     loadSuccess: PropTypes.func.isRequired,
     loadFailed: PropTypes.func.isRequired,
     loading: PropTypes.bool.isRequired,
-    days: PropTypes.array.isRequired,
-    subscription: PropTypes.array
+    days: PropTypes.array.isRequired
   };
 
   render () {
@@ -60,7 +59,7 @@ class Schedules extends Component {
   renderRow = (item, index) => {
     return (
       <TouchableOpacity onPress={() => this.goToCarousel(item)}>
-        <Topic topic={item} isSubscribed={this.props.subscription.includes(item.id)}/>
+        <Topic topic={item} isSubscribed={item.isSubscribed}/>
       </TouchableOpacity>
     )
   }
@@ -116,8 +115,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => ({
   loading: state.data.loading,
   error: state.data.error,
-  days: state.data.days,
-  subscription: state.schedule.subscription
+  days: combineData(state.data.days, state.schedule.subscription)
 })
 
 const mapDispatchToProps = dispatch =>
