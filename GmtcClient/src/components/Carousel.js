@@ -39,6 +39,7 @@ export default class extends Component {
 var styles = StyleSheet.create({
   carousel: {
     margin: 10,
+    marginTop: 5,
     overflow: 'visible',
     backgroundColor: 'black'
   }

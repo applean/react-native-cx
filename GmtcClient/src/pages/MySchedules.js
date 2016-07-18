@@ -3,7 +3,7 @@ import PureListView from '../components/FakeListView'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as dataActions from '../reducers/data'
-import TopicDetail from './TopicDetail'
+import TopicsCarousel from './TopicsCarousel'
 import Topic from './Topic'
 import {
   View,
@@ -19,6 +19,7 @@ class MySchedules extends Component {
     load: PropTypes.func.isRequired,
     loadSuccess: PropTypes.func.isRequired,
     loadFailed: PropTypes.func.isRequired,
+    days: PropTypes.array.isRequired,
     topics: PropTypes.object
   };
 
@@ -52,7 +53,8 @@ class MySchedules extends Component {
   goToCarousel = (item) => {
     // const dayId = item.room.day_id
     this.props.navigator.push({
-      component: TopicDetail,
+      component: TopicsCarousel,
+      day: this.props.days[item.room.day_id - 1],
       topic: item
     })
   }
@@ -95,6 +97,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => ({
   loading: state.data.loading,
   error: state.data.error,
+  days: state.data.days,
   topics: state.schedule.mySchedules
 })
 
