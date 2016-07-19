@@ -34,7 +34,6 @@ export default class extends Component {
 
   componentWillReceiveProps (nextProps) {
     if (this.props.data !== nextProps.data) {
-      console.log('execute: ', nextProps.data)
       this.setState({
         dataSource: this.cloneWithData(this.state.dataSource, nextProps.data)
       })
@@ -70,11 +69,11 @@ export default class extends Component {
       return dataSource.cloneWithRows([])
     }
     if (Array.isArray(data)) {
-      console.log('is array')
       this.length = data.length
       return dataSource.cloneWithRows(data)
     }
-    for (let day in this.props.data) {
+    this.length = 0
+    for (let day in data) {
       this.length += data[day].length
     }
     return dataSource.cloneWithRowsAndSections(data)

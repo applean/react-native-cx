@@ -28,7 +28,6 @@ class MySchedules extends Component {
   };
 
   render () {
-    console.log('MySchedules is rendered')
     return (
       <View style={styles.container}>
         <View style={[styles.center, {backgroundColor: '#1e4b9a', height: 250, paddingTop: 25}]}>
@@ -46,10 +45,6 @@ class MySchedules extends Component {
           renderEmptyView={this.renderEmptyView}/>
       </View>
     )
-  }
-
-  componentDidMount () {
-    console.log('MySchedules componentDidMount')
   }
 
   renderEmptyView = () => {
