@@ -28,6 +28,7 @@ class Schedules extends Component {
   };
 
   render () {
+    let width
     if (this.props.loading || this.props.days.length === 0) {
       return (
         <View style={[styles.container, styles.center]} >
@@ -37,10 +38,14 @@ class Schedules extends Component {
     }
     return (
       <View style={styles.container}>
-        <View style={[styles.center, {backgroundColor: '#1e4b9a', height: 250, paddingTop: 25}]}>
-          <Image source={require('../assets/gmtc.png')} style={{padding: 10, height: 60, width: 200}} />
-          <Text style={{color: 'white', fontSize: 29, marginTop: 15}}>全球移动技术大会</Text>
-          <Text style={{color: 'rgba(255, 255, 255, 0.7)', fontSize: 11, marginTop: 3}}>2016年6月24日－25日</Text>
+        <View onLayout={e => {
+            width = e.nativeEvent.layout.width
+          }}>
+          <Image source={require('../assets/schedule-background.png')} style={[styles.center, {width, height: 250, paddingTop: 24, resizeMode: 'stretch'}]}>
+            <Image source={require('../assets/gmtc.png')} style={{padding: 10, height: 60, width: 200}} />
+            <Text style={{color: 'white', fontSize: 29, marginTop: 15}}>全球移动技术大会</Text>
+            <Text style={{color: 'rgba(255, 255, 255, 0.7)', fontSize: 11, marginTop: 3}}>2016年6月24日－25日</Text>
+          </Image>
         </View>
         <ScrollableTabView style={{marginTop: -41}}
           renderTabBar={() =>

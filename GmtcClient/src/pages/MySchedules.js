@@ -28,15 +28,18 @@ class MySchedules extends Component {
   };
 
   render () {
+    let width
     return (
       <View style={styles.container}>
-        <View style={[styles.center, {backgroundColor: '#1e4b9a', height: 250, paddingTop: 25}]}>
-          <Image source={require('../assets/gmtc.png')} style={{padding: 10, height: 60, width: 200}} />
-          <Text style={{color: 'white', fontSize: 29, marginTop: 15}}>全球移动技术大会</Text>
-          <Text style={{color: 'rgba(255, 255, 255, 0.7)', fontSize: 11, marginTop: 3}}>2016年6月24日－25日</Text>
-          <View style={styles.title}>
-            <Text style={{color: 'white', fontSize: 16}}>我 的 订 阅</Text>
-          </View>
+        <View onLayout={e => {
+          width = e.nativeEvent.layout.width
+        }}>
+          <Image source={require('../assets/my-g8-background.png')} style={[styles.center, {width, height: 250, paddingTop: 24, resizeMode: 'stretch'}]}>
+            <Image source={require('../assets/avatar.png')} style={{height: 90, width: 90, borderRadius: 45, backgroundColor: 'white'}} />
+            <View style={styles.title}>
+              <Text style={{color: 'white', fontSize: 16}}>我 的 订 阅</Text>
+            </View>
+          </Image>
         </View>
         <PureListView data={this.props.topics}
           enableEmptySections
