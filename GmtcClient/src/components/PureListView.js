@@ -15,8 +15,9 @@ const dataSource = new ListView.DataSource({
 export default class extends Component {
 
   static propTypes = {
-    data: PropTypes.object,
-    needSeparator: PropTypes.bool
+    data: PropTypes.any,
+    needSeparator: PropTypes.bool,
+    renderEmptyView: PropTypes.func
   };
 
   static defaultProps = {
@@ -25,22 +26,26 @@ export default class extends Component {
 
   constructor (props) {
     super(props)
+    this.length = 0
     this.state = {
-      dataSource: cloneWithData(dataSource, props.data)
+      dataSource: this.cloneWithData(dataSource, props.data)
     }
   }
 
   componentWillReceiveProps (nextProps) {
     if (this.props.data !== nextProps.data) {
+      console.log('execute: ', nextProps.data)
       this.setState({
-        dataSource: cloneWithData(this.state.dataSource, nextProps.data)
+        dataSource: this.cloneWithData(this.state.dataSource, nextProps.data)
       })
     }
   }
 
   render () {
+    const {renderEmptyView} = this.props
     return (
-      <ListView
+      this.length > 0
+    ? <ListView
         {...this.props}
         initialListSize={10}
         pageSize={10}
@@ -48,6 +53,7 @@ export default class extends Component {
         dataSource={this.state.dataSource}
         onContentSizeChange={this.onContentSizeChange.bind(this)}
       />
+    : renderEmptyView()
     )
   }
 
@@ -57,19 +63,25 @@ export default class extends Component {
     }
   }
 
+  cloneWithData (dataSource, data) {
+    if (!data) {
+      this.length = 0
+      return dataSource.cloneWithRows([])
+    }
+    if (Array.isArray(data)) {
+      console.log('is array')
+      this.length = data.length
+      return dataSource.cloneWithRows(data)
+    }
+    for (let day in this.props.data) {
+      this.length += data[day].length
+    }
+    return dataSource.cloneWithRowsAndSections(data)
+  }
+
   renderSeparator = (sectionID, rowID) =>
     this.props.needSeparator && <View key={`${sectionID}vs${rowID}`} style={styles.separator} />
 
-}
-
-function cloneWithData (dataSource, data) {
-  if (!data) {
-    return dataSource.cloneWithRows([])
-  }
-  if (Array.isArray(data)) {
-    return dataSource.cloneWithRows(data)
-  }
-  return dataSource.cloneWithRowsAndSections(data)
 }
 
 const styles = StyleSheet.create({

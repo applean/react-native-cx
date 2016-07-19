@@ -3,7 +3,7 @@ import React, { Component, PropTypes } from 'react'
 import PureListView from '../components/PureListView'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import genSchedules, {combineData} from '../helper/dataHelper'
+import {genData, combineData} from '../helper/dataHelper'
 import * as dataActions from '../reducers/data'
 import ScrollableTabView from 'react-native-scrollable-tab-view'
 import SegmentTabWrapper from '../components/SegmentTabWrapper'
@@ -47,9 +47,11 @@ class Schedules extends Component {
             <SegmentTabWrapper style={{marginBottom: 7}} borderRadius={13.5} titleSize={12} horizontalWidth={160} horizontalHeight={27} activeColor='rgba(255,255,255,0.5)'/>}>
           <PureListView data={this.props.days[0].topics} tabLabel='第一天'
             renderRow={this.renderRow}
+            enableEmptySections
             renderSectionHeader={this.renderSectionHeader}/>
           <PureListView data={this.props.days[1].topics} tabLabel='第二天'
             renderRow={this.renderRow}
+            enableEmptySections
             renderSectionHeader={this.renderSectionHeader}/>
         </ScrollableTabView>
       </View>
@@ -92,7 +94,7 @@ class Schedules extends Component {
     fetch('http://gmtc.applean.cn/home/index.json')
     .then(response => response.json())
     .then(responseData => {
-      this.props.loadSuccess(genSchedules(responseData))
+      this.props.loadSuccess(genData(responseData))
     })
     .catch(error => this.props.loadFailed(error))
   }
