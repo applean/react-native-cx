@@ -49,6 +49,7 @@ export default class extends Component {
         {...this.props}
         initialListSize={10}
         pageSize={10}
+        removeClippedSubviews={false}
         renderSeparator={this.renderSeparator}
         dataSource={this.state.dataSource}
         onContentSizeChange={this.onContentSizeChange.bind(this)}

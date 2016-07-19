@@ -1,10 +1,12 @@
 import React, { Component, PropTypes } from 'react'
-import PureListView from '../components/FakeListView'
+import PureListView from '../components/PureListView'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as dataActions from '../reducers/data'
 import TopicsCarousel from './TopicsCarousel'
+import {subscribe, unsubscribe} from '../reducers/schedule'
 import Topic from './Topic'
+import {genSubscribedData} from '../helper/dataHelper'
 import SubscribeButton from '../components/SubscribeButton'
 import {
   View,
@@ -26,6 +28,7 @@ class MySchedules extends Component {
   };
 
   render () {
+    console.log('MySchedules is rendered')
     return (
       <View style={styles.container}>
         <View style={[styles.center, {backgroundColor: '#1e4b9a', height: 250, paddingTop: 25}]}>
@@ -37,11 +40,16 @@ class MySchedules extends Component {
           </View>
         </View>
         <PureListView data={this.props.topics}
+          enableEmptySections
+          renderSectionHeader={this.renderSectionHeader}
           renderRow={this.renderRow}
-          renderEmptyView={this.renderEmptyView}
-          renderSectionHeader={this.renderSectionHeader}/>
+          renderEmptyView={this.renderEmptyView}/>
       </View>
     )
+  }
+
+  componentDidMount () {
+    console.log('MySchedules componentDidMount')
   }
 
   renderEmptyView = () => {
@@ -58,13 +66,11 @@ class MySchedules extends Component {
     return (
       <TouchableOpacity onPress={() => this.goToCarousel(item)}>
         <Topic topic={item} isSubscribed/>
-        {renderSeparator(item, index)}
       </TouchableOpacity>
     )
   }
 
   goToCarousel = (item) => {
-    // const dayId = item.room.day_id
     this.props.navigator.push({
       component: TopicsCarousel,
       day: this.props.days[item.room.day_id - 1],
@@ -117,10 +123,10 @@ const mapStateToProps = state => ({
   loading: state.data.loading,
   error: state.data.error,
   days: state.data.days,
-  topics: state.schedule.mySchedules
+  topics: genSubscribedData(state.data.days, state.schedule.subscription)
 })
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({...dataActions}, dispatch)
+  bindActionCreators({...dataActions, unsubscribe}, dispatch)
 
 module.exports = connect(mapStateToProps, mapDispatchToProps)(MySchedules)
