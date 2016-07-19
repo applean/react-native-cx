@@ -103,8 +103,8 @@ const mapStateToProps = (state, props) => ({
 
 const mapDispatchToProps = (dispatch, props) => {
   return {
-    subscribe: () => dispatch(subscribe(props.topic)),
-    unsubscribe: () => dispatch(unsubscribe(props.topic))
+    subscribe: () => dispatch(subscribe(props.topic.id)),
+    unsubscribe: () => dispatch(unsubscribe(props.topic.id))
   }
 }
 

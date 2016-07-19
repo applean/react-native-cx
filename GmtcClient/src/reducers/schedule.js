@@ -8,24 +8,18 @@ const UNSUBSCRIBE_FAILED = 'UNSUBSCRIBE_FAILED'
 const initialState = {
   subscribing: true,
   error: null,
-  subscription: [],
-  mySchedules: {}
+  subscription: []
 }
 
 export default function reducer (state = initialState, action) {
   switch (action.type) {
     case SUBSCRIBE:
-      const oldDaySchedule = state.mySchedules[action.topic.room.day_id] || []
-      const topics = [...oldDaySchedule, action.topic]
       return {
         ...state,
         subscription: [
           ...state.subscription,
-          action.topic.id
+          action.id
         ],
-        mySchedules: {
-          ...state.mySchedules,
-          [action.topic.room.day_id]: topics},
         error: null
       }
     case SUBSCRIBE_SUCCESS:
@@ -41,14 +35,9 @@ export default function reducer (state = initialState, action) {
         error: action.error
       }
     case UNSUBSCRIBE:
-      const dayId = action.topic.room.day_id
       return {
         ...state,
-        subscription: state.subscription.filter(item => item !== action.topic.id),
-        mySchedules: {
-          ...state.mySchedules,
-          [dayId]: (state.mySchedules[dayId] || []).filter(item => item.id !== action.topic.id)
-        },
+        subscription: state.subscription.filter(item => item !== action.id),
         error: null
       }
     case UNSUBSCRIBE_SUCCESS:
@@ -68,10 +57,10 @@ export default function reducer (state = initialState, action) {
   }
 }
 
-export function subscribe (topic) {
+export function subscribe (id) {
   return {
     type: SUBSCRIBE,
-    topic
+    id
   }
 }
 
@@ -88,10 +77,10 @@ export function subscribeFailed (error) {
   }
 }
 
-export function unsubscribe (topic) {
+export function unsubscribe (id) {
   return {
     type: UNSUBSCRIBE,
-    topic
+    id
   }
 }
 
