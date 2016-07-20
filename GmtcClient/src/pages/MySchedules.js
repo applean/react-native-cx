@@ -4,10 +4,10 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as dataActions from '../reducers/data'
 import TopicsCarousel from './TopicsCarousel'
-import {subscribe, unsubscribe} from '../reducers/schedule'
 import Topic from './Topic'
 import {genSubscribedData} from '../helper/dataHelper'
 import SubscribeButton from '../components/SubscribeButton'
+import ListContainer from '../components/ListContainer'
 import {
   View,
   Text,
@@ -26,7 +26,7 @@ class MySchedules extends Component {
     topics: PropTypes.object,
     emptyOperation: PropTypes.func
   };
-
+/*
   render () {
     let width
     return (
@@ -47,6 +47,27 @@ class MySchedules extends Component {
           renderRow={this.renderRow}
           renderEmptyView={this.renderEmptyView}/>
       </View>
+    )
+  }*/
+
+  render () {
+    let profilePicture = (
+      <Image source={require('../assets/avatar.png')}
+        style={{height: 90, width: 90, borderRadius: 45, backgroundColor: 'white'}}
+      />
+    )
+    return (
+      <ListContainer
+        title='我的订阅'
+        parallaxContent={profilePicture}
+        backgroundImage={require('../assets/my-g8-background.png')}
+        backgroundColor='#A8D769'>
+        <PureListView data={this.props.topics}
+          enableEmptySections
+          renderSectionHeader={this.renderSectionHeader}
+          renderRow={this.renderRow}
+          renderEmptyView={this.renderEmptyView}/>
+      </ListContainer>
     )
   }
 
@@ -125,6 +146,6 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({...dataActions, unsubscribe}, dispatch)
+  bindActionCreators({...dataActions}, dispatch)
 
 module.exports = connect(mapStateToProps, mapDispatchToProps)(MySchedules)

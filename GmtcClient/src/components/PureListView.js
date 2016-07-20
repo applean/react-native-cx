@@ -46,21 +46,23 @@ export default class extends Component {
       this.length > 0
     ? <ListView
         {...this.props}
+        ref='listview'
         initialListSize={10}
         pageSize={10}
         removeClippedSubviews={false}
         renderSeparator={this.renderSeparator}
         dataSource={this.state.dataSource}
-        onContentSizeChange={this.onContentSizeChange.bind(this)}
       />
     : renderEmptyView()
     )
   }
 
-  onContentSizeChange (contentWidth, contentHeight) {
-    if (contentHeight !== this.state.contentHeight) {
-      this.setState({contentHeight})
-    }
+  scrollTo (...args: Array<any>) {
+    this.refs.listview.scrollTo(...args)
+  }
+
+  getScrollResponder (): any {
+    return this.refs.listview.getScrollResponder()
   }
 
   cloneWithData (dataSource, data) {

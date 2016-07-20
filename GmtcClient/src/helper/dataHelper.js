@@ -55,6 +55,5 @@ export function genSubscribedData (days, subscription) {
       })
     }
   })
-  console.log('result: ', result)
   return result
 }
