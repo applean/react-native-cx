@@ -5,8 +5,7 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import {genData, combineData} from '../helper/dataHelper'
 import * as dataActions from '../reducers/data'
-import ScrollableTabView from 'react-native-scrollable-tab-view'
-import SegmentTabWrapper from '../components/SegmentTabWrapper'
+import ListContainer from '../components/ListContainer'
 import TopicsCarousel from './TopicsCarousel'
 import Topic from './Topic'
 import {
@@ -36,30 +35,31 @@ class Schedules extends Component {
         </View>
       )
     }
-    return (
-      <View style={styles.container}>
-        <View onLayout={e => {
-          width = e.nativeEvent.layout.width
-        }}>
-          <Image source={require('../assets/schedule-background.png')} style={[styles.center, {width, height: 250, paddingTop: 24, resizeMode: 'stretch'}]}>
-            <Image source={require('../assets/gmtc.png')} style={{padding: 10, height: 60, width: 200}} />
-            <Text style={{color: 'white', fontSize: 29, marginTop: 15}}>全球移动技术大会</Text>
-            <Text style={{color: 'rgba(255, 255, 255, 0.7)', fontSize: 11, marginTop: 3}}>2016年6月24日－25日</Text>
-          </Image>
-        </View>
-        <ScrollableTabView style={{marginTop: -41}}
-          renderTabBar={() =>
-            <SegmentTabWrapper style={{marginBottom: 7}} borderRadius={13.5} titleSize={12} horizontalWidth={160} horizontalHeight={27} activeColor='rgba(255,255,255,0.5)'/>}>
-          <PureListView data={this.props.days[0].topics} tabLabel='第一天'
-            renderRow={this.renderRow}
-            enableEmptySections
-            renderSectionHeader={this.renderSectionHeader}/>
-          <PureListView data={this.props.days[1].topics} tabLabel='第二天'
-            renderRow={this.renderRow}
-            enableEmptySections
-            renderSectionHeader={this.renderSectionHeader}/>
-        </ScrollableTabView>
+    let parallaxContent = (
+      <View style={[styles.center, {width, height: 250, paddingTop: 24, resizeMode: 'stretch'}]}>
+        <Image source={require('../assets/gmtc.png')} style={{padding: 10, height: 60, width: 200}} />
+        <Text style={{color: 'white', fontSize: 29, marginTop: 15}}>全球移动技术大会</Text>
+        <Text style={{color: 'rgba(255, 255, 255, 0.7)', fontSize: 11, marginTop: 3}}>2016年6月24日－25日</Text>
       </View>
+    )
+    return (
+      <ListContainer
+        title='全球移动技术大会'
+        parallaxContent={parallaxContent}
+        backgroundImage={require('../assets/schedule-background.png')}>
+        <PureListView data={this.props.days[0].topics}
+          title='第一天'
+          day={1}
+          renderRow={this.renderRow}
+          enableEmptySections
+          renderSectionHeader={this.renderSectionHeader}/>
+        <PureListView data={this.props.days[1].topics}
+          title='第二天'
+          day={2}
+          renderRow={this.renderRow}
+          enableEmptySections
+          renderSectionHeader={this.renderSectionHeader}/>
+      </ListContainer>
     )
   }
 

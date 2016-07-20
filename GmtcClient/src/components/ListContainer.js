@@ -190,15 +190,14 @@ export default class extends React.Component {
     }
     var opacity = this.state.stickyHeaderHeight === 0 ? 0 : 1
     var transform
-    if (!this.props.parallaxContent) {
+    if (!NativeModules.F8Scrolling) {
       var distance = EMPTY_CELL_HEIGHT - this.state.stickyHeaderHeight
-      transform = {
-        opacity: this.state.anim.interpolate({
-          inputRange: [distance - 20, distance],
-          outputRange: [0, 1],
-          extrapolate: 'clamp'
-        })
-      }
+      var translateY = 0; this.state.anim.interpolate({
+        inputRange: [0, distance],
+        outputRange: [distance, 0],
+        extrapolateRight: 'clamp'
+      })
+      transform = [{translateY}]
     }
     return (
       <Animated.View
@@ -222,6 +221,9 @@ export default class extends React.Component {
   }
 
   componentDidUpdate (prevProps: Props, prevState: State) {
+    if (!NativeModules.F8Scrolling) {
+      return
+    }
     if (this.state.idx !== prevState.idx ||
         this.state.stickyHeaderHeight !== prevState.stickyHeaderHeight) {
       var distance = EMPTY_CELL_HEIGHT - this.state.stickyHeaderHeight
