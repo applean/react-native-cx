@@ -39,8 +39,8 @@ class Schedules extends Component {
     return (
       <View style={styles.container}>
         <View onLayout={e => {
-            width = e.nativeEvent.layout.width
-          }}>
+          width = e.nativeEvent.layout.width
+        }}>
           <Image source={require('../assets/schedule-background.png')} style={[styles.center, {width, height: 250, paddingTop: 24, resizeMode: 'stretch'}]}>
             <Image source={require('../assets/gmtc.png')} style={{padding: 10, height: 60, width: 200}} />
             <Text style={{color: 'white', fontSize: 29, marginTop: 15}}>全球移动技术大会</Text>

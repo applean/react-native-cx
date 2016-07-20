@@ -54,11 +54,10 @@ export default class TopicDetail extends Component {
   };
 
   renderRest = () => {
-    const {width, height} = require('../assets/rest-self.png')
     if (this.props.topic.rest) {
       return (
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 80}}>
-          <Image source={require('../assets/rest-self.png')} style={{width: width * 0.7, height: height * 0.7}}/>
+          <Image source={require('../assets/rest-self.png')} style={{width: 96 * 0.7, height: 108 * 0.7}}/>
           <Image source={require('../assets/hacker-way.png')} style={{marginTop: 40}}/>
         </View>
         )
