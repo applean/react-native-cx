@@ -41,6 +41,6 @@ var styles = StyleSheet.create({
     margin: 10,
     marginTop: 5,
     overflow: 'visible',
-    backgroundColor: 'black'
+    backgroundColor: '#6ec0df'
   }
 })

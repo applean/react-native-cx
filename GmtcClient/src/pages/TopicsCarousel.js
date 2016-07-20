@@ -106,7 +106,7 @@ export default class extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'black'
+    backgroundColor: '#6ec0df'
   },
   header: {
     paddingTop: 20,
