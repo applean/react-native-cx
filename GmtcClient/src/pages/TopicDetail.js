@@ -6,12 +6,12 @@ import SubscribeButton from '../components/SubscribeButton'
 import {
   View,
   Text,
+  Image,
   ScrollView,
   StyleSheet
 } from 'react-native'
 const AWESOME_COLOR = ['red', 'orange', 'green', 'cyan', 'blue', 'purple']
 export default class TopicDetail extends Component {
-
   static propTypes = {
     topic: PropTypes.object,
     subscribe: PropTypes.func,
@@ -34,10 +34,13 @@ export default class TopicDetail extends Component {
         <ScrollView style={styles.content}>
           <Topic topic={topic} style={{paddingLeft: 0, paddingRight: 0}}/>
           <Text style={styles.description}>{convert(topic.description)}</Text>
+          {this.renderRest()}
         </ScrollView>
-        <View style={styles.footer}>
-          <SubscribeButton isSubscribed={isSubscribed} onPress={this.toggleAdded} />
-        </View>
+        { !topic.rest &&
+          <View style={styles.footer}>
+            <SubscribeButton isSubscribed={isSubscribed} onPress={this.toggleAdded} />
+          </View>
+        }
       </View>
     )
   }
@@ -49,6 +52,18 @@ export default class TopicDetail extends Component {
       this.props.subscribe()
     }
   };
+
+  renderRest = () => {
+    const {width, height} = require('../assets/rest-self.png')
+    if (this.props.topic.rest) {
+      return (
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 80}}>
+          <Image source={require('../assets/rest-self.png')} style={{width: width * 0.7, height: height * 0.7}}/>
+          <Image source={require('../assets/hacker-way.png')} style={{marginTop: 40}}/>
+        </View>
+        )
+    }
+  }
 }
 
 function convert (input) {

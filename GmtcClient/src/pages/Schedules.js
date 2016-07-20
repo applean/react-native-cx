@@ -64,6 +64,9 @@ class Schedules extends Component {
   }
 
   renderRow = (item, index) => {
+    if (item.rest) {
+      return <Topic topic={item} isSubscribed={item.isSubscribed}/>
+    }
     return (
       <TouchableOpacity onPress={() => this.goToCarousel(item)}>
         <Topic topic={item} isSubscribed={item.isSubscribed}/>
