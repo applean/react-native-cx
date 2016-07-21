@@ -44,6 +44,7 @@ class Schedules extends Component {
     return (
       <ListContainer
         title='全球移动技术大会'
+        needTransitionTitle
         parallaxContent={parallaxContent}
         backgroundImage={require('../assets/schedule-background.png')}>
         <PureListView data={this.props.days[0].topics}

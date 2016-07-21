@@ -23,6 +23,7 @@ type Props = {
   parallaxContent?: ?ReactElement;
   stickyHeader?: ?ReactElement;
   onSegmentChange?: (segment: number) => void;
+  needTransitionTitle: bool;
   children?: any;
 };
 
@@ -41,7 +42,8 @@ export default class extends React.Component {
   _pinned: any;
 
   static defaultProps = {
-    selectedSectionColor: 'white'
+    selectedSectionColor: 'white',
+    needTransitionTitle: false
   };
 
   constructor (props: Props) {
@@ -138,7 +140,7 @@ export default class extends React.Component {
 
   renderHeaderTitle (): ?ReactElement { // 导航条标题，有伸缩视图时标题常驻，没有则逐渐出现
     var transform
-    if (!this.props.parallaxContent) {
+    if (!this.props.parallaxContent || this.props.needTransitionTitle) {
       var distance = EMPTY_CELL_HEIGHT - this.state.stickyHeaderHeight
       transform = {
         opacity: this.state.anim.interpolate({
