@@ -1,5 +1,5 @@
 # G8 (version for Android is coming)
-为上次参加GMTC大会做的一个日程App，设计和部分效果参考了Facebook出品的F8项目:
+Made for GMTC schedule in June
 ## Preview
 ### Home
 <img src="http://ww4.sinaimg.cn/large/005zU9b3gw1f61rf42dstj30ku11079h.jpg" width="340" height="600"/>
@@ -24,3 +24,4 @@ If possible, please go [here](https://applean.cn). It could be easier to program
 *Thanks for style and special components from F8*
 
 #License
+Not determined currently
