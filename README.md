@@ -11,7 +11,7 @@
 <img src="http://ww2.sinaimg.cn/large/005zU9b3gw1f61rf2s9guj30ku112jta.jpg" width="340" height="600"/>
 
 ### Gif
-![](http://ww1.sinaimg.cn/large/005zU9b3gw1f61s9z8jewg30aa0ifb2d.gif)
+<img src="http://ww3.sinaimg.cn/large/005zU9b3gw1f61sqt440fg30aa0if4qq.gif"/>
 # Usage
 1. The repository contains parts for server and react native client, you can pay your attention to codes in client named 'GmtcClient' after cloning.
 2. `cd GmtcClient`
