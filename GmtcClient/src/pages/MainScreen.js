@@ -52,7 +52,7 @@ export default class extends React.Component {
 
 const styles = StyleSheet.create({
   icon: {
-    height: 26,
+    height: 27,
     width: 26
   }
 })
