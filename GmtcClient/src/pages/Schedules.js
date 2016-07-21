@@ -27,7 +27,6 @@ class Schedules extends Component {
   };
 
   render () {
-    let width
     if (this.props.loading || this.props.days.length === 0) {
       return (
         <View style={[styles.container, styles.center]} >
@@ -36,7 +35,7 @@ class Schedules extends Component {
       )
     }
     let parallaxContent = (
-      <View style={[styles.center, {width, height: 250, paddingTop: 24, resizeMode: 'stretch'}]}>
+      <View style={[styles.center]}>
         <Image source={require('../assets/gmtc.png')} style={{padding: 10, height: 60, width: 200}} />
         <Text style={{color: 'white', fontSize: 29, marginTop: 15}}>全球移动技术大会</Text>
         <Text style={{color: 'rgba(255, 255, 255, 0.7)', fontSize: 11, marginTop: 3}}>2016年6月24日－25日</Text>

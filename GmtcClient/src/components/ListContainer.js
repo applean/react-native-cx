@@ -158,6 +158,7 @@ export default class extends React.Component {
     if (idx !== this.state.idx) {
       return
     }
+    console.log('handleScroll:', idx, this.state.idx, e.nativeEvent)
     let y = 0
     if (Platform.OS === 'ios') {
       this.state.anim.setValue(e.nativeEvent.contentOffset.y)
@@ -190,14 +191,15 @@ export default class extends React.Component {
     }
     var opacity = this.state.stickyHeaderHeight === 0 ? 0 : 1
     var transform
+
     if (!NativeModules.F8Scrolling) {
-      var distance = EMPTY_CELL_HEIGHT - this.state.stickyHeaderHeight
-      var translateY = 0; this.state.anim.interpolate({
+      var distance = EMPTY_CELL_HEIGHT - this.state.stickyHeaderHeight;
+      var translateY = this.state.anim.interpolate({
         inputRange: [0, distance],
         outputRange: [distance, 0],
-        extrapolateRight: 'clamp'
-      })
-      transform = [{translateY}]
+        extrapolateRight: 'clamp',
+      });
+      transform = [{translateY}];
     }
     return (
       <Animated.View
@@ -278,7 +280,7 @@ var styles = StyleSheet.create({
   },
   stickyHeader: {
     position: 'absolute',
-    top: 44,
+    top: 64,
     left: 0,
     right: 0
   }

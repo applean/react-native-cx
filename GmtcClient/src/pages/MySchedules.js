@@ -26,29 +26,6 @@ class MySchedules extends Component {
     topics: PropTypes.object,
     emptyOperation: PropTypes.func
   };
-/*
-  render () {
-    let width
-    return (
-      <View style={styles.container}>
-        <View onLayout={e => {
-          width = e.nativeEvent.layout.width
-        }}>
-          <Image source={require('../assets/my-g8-background.png')} style={[styles.center, {width, height: 250, paddingTop: 24, resizeMode: 'stretch'}]}>
-            <Image source={require('../assets/avatar.png')} style={{height: 90, width: 90, borderRadius: 45, backgroundColor: 'white'}} />
-            <View style={styles.title}>
-              <Text style={{color: 'white', fontSize: 16}}>我 的 订 阅</Text>
-            </View>
-          </Image>
-        </View>
-        <PureListView data={this.props.topics}
-          enableEmptySections
-          renderSectionHeader={this.renderSectionHeader}
-          renderRow={this.renderRow}
-          renderEmptyView={this.renderEmptyView}/>
-      </View>
-    )
-  }*/
 
   render () {
     let profilePicture = (
