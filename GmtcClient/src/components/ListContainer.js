@@ -78,7 +78,9 @@ export default class extends React.Component {
 
     // segments 的指示器
     let {stickyHeader} = this.props
+    let assistantHeight = 64
     if (segments.length > 1) {
+      assistantHeight = 20
       stickyHeader = (
         <View>
           <F8SegmentedControl
@@ -95,13 +97,12 @@ export default class extends React.Component {
     const backgroundShift = segments.length === 1
       ? 0
       : this.state.idx / (segments.length - 1)
-
     return (
       <View style={styles.container}>
         <View style={styles.headerWrapper}>
           <ParallaxBackground
             minHeight={this.state.stickyHeaderHeight + 64}
-            maxHeight={EMPTY_CELL_HEIGHT + this.state.stickyHeaderHeight + 64}
+            maxHeight={EMPTY_CELL_HEIGHT + this.state.stickyHeaderHeight + assistantHeight}
             offset={this.state.anim}
             backgroundImage={this.props.backgroundImage}
             backgroundShift={backgroundShift}
