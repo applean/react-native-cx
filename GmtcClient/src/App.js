@@ -9,10 +9,15 @@ import Home from './pages/MainScreen'
 const store = autoRehydrate()(createStore)(reducers)
 persistStore(store, {storage: AsyncStorage})
 import {
+  Platform,
   StatusBar,
   View,
   Navigator
 } from 'react-native'
+
+export const STATUS_BAR_HEIGHT = (Platform.OS === 'ios' ? 20 : 25)
+export const NAV_BAR_HEIGHT = (Platform.OS === 'ios' ? 44 : 56)
+export const ABOVE_LOLIPOP = Platform.Version && Platform.Version > 19
 
 export default class extends Component {
   render () {
@@ -21,6 +26,9 @@ export default class extends Component {
         <View style={{flex: 1}}>
           <StatusBar
             barStyle='light-content'
+            backgroundColor='transparent'
+            style={{height: STATUS_BAR_HEIGHT}}
+            translucent={ABOVE_LOLIPOP}
           />
           <Navigator
             initialRoute={{

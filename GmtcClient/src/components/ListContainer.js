@@ -1,10 +1,10 @@
-var F8SegmentedControl = require('./F8SegmentedControl')
 var ParallaxBackground = require('ParallaxBackground')
 var React = require('React')
 var ReactNative = require('react-native')
 var ViewPager = require('./ViewPager')
 var Platform = require('Platform')
 import SegmentTab from './SegmentTab'
+import {STATUS_BAR_HEIGHT, NAV_BAR_HEIGHT} from '../App'
 import {
   Text,
   View,
@@ -80,9 +80,9 @@ export default class extends React.Component {
 
     // segments 的指示器
     let {stickyHeader} = this.props
-    let assistantHeight = 64
+    let assistantHeight = STATUS_BAR_HEIGHT + NAV_BAR_HEIGHT
     if (segments.length > 1) {
-      assistantHeight = 20
+      assistantHeight = STATUS_BAR_HEIGHT
       stickyHeader = (
         <View style={{alignItems: 'center', justifyContent: 'center', marginBottom: 7}}>
           <SegmentTab
@@ -115,7 +115,7 @@ export default class extends React.Component {
             backgroundColor={this.props.backgroundColor}>
             {this.renderParallaxContent()}
           </ParallaxBackground>
-          <View style={{height: 64, paddingTop: 20, alignItems: 'center', justifyContent: 'center'}}>
+          <View style={{height: STATUS_BAR_HEIGHT + NAV_BAR_HEIGHT, paddingTop: STATUS_BAR_HEIGHT, alignItems: 'center', justifyContent: 'center'}}>
             {this.renderHeaderTitle()}
           </View>
           {this.renderFixedStickyHeader(stickyHeader)}
@@ -144,7 +144,7 @@ export default class extends React.Component {
 
   renderHeaderTitle (): ?ReactElement { // 导航条标题，有伸缩视图时标题常驻，没有则逐渐出现
     var transform
-    if (!this.props.parallaxContent || this.props.needTransitionTitle) {
+    if (!this.props.parallaxContent || Platform.OS === 'ios' && this.props.needTransitionTitle) {
       var distance = EMPTY_CELL_HEIGHT - this.state.stickyHeaderHeight
       transform = {
         opacity: this.state.anim.interpolate({
@@ -165,7 +165,6 @@ export default class extends React.Component {
     if (idx !== this.state.idx) {
       return
     }
-    console.log('handleScroll:', idx, this.state.idx, e.nativeEvent)
     let y = 0
     if (Platform.OS === 'ios') {
       this.state.anim.setValue(e.nativeEvent.contentOffset.y)
