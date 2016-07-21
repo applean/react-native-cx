@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux'
-import metting from './metting'
+import schedule from './schedule'
 import data from './data'
 
 export default combineReducers({
-  metting,
+  schedule,
   data
 })
