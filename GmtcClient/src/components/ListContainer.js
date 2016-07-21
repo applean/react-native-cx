@@ -4,7 +4,7 @@ var React = require('React')
 var ReactNative = require('react-native')
 var ViewPager = require('./ViewPager')
 var Platform = require('Platform')
-
+import SegmentTab from './SegmentTab'
 import {
   Text,
   View,
@@ -42,7 +42,7 @@ export default class extends React.Component {
   _pinned: any;
 
   static defaultProps = {
-    selectedSectionColor: 'white',
+    selectedSectionColor: 'rgba(255,255,255,0.5)',
     needTransitionTitle: false
   };
 
@@ -84,12 +84,16 @@ export default class extends React.Component {
     if (segments.length > 1) {
       assistantHeight = 20
       stickyHeader = (
-        <View>
-          <F8SegmentedControl
-            values={segments}
-            selectedIndex={this.state.idx}
-            selectionColor={this.props.selectedSectionColor}
-            onChange={this.handleSelectSegment}
+        <View style={{alignItems: 'center', justifyContent: 'center', marginBottom: 7}}>
+          <SegmentTab
+            data={segments}
+            titleSize={12}
+            borderRadius={13.5}
+            horizontalHeight={27}
+            horizontalWidth={160}
+            selected={this.state.idx}
+            activeColor={this.props.selectedSectionColor}
+            onPress={this.handleSelectSegment}
           />
           {stickyHeader}
         </View>
