@@ -8,6 +8,7 @@ import Topic from './Topic'
 import {genSubscribedData} from '../helper/dataHelper'
 import SubscribeButton from '../components/SubscribeButton'
 import ListContainer from '../components/ListContainer'
+import {EMPTY_CELL_HEIGHT} from '../components/ListContainer'
 import {
   View,
   Text,
@@ -49,8 +50,9 @@ class MySchedules extends Component {
   }
 
   renderEmptyView = () => {
+    console.log('dta: ', EMPTY_CELL_HEIGHT)
     return (
-      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', paddingTop: EMPTY_CELL_HEIGHT}}>
         <Image source={require('../assets/no-topics-added.png')} />
         <Text style={styles.message}>您订阅的主题将会{'\n'}展现于此</Text>
         <SubscribeButton style={{width: 220, marginTop: 15}} onPress={this.props.emptyOperation}/>

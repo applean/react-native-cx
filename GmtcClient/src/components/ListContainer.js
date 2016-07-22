@@ -33,7 +33,7 @@ type State = {
   stickyHeaderHeight: number;
 };
 
-const EMPTY_CELL_HEIGHT = Dimensions.get('window').height > 600 ? 200 : 150
+export const EMPTY_CELL_HEIGHT = Dimensions.get('window').height > 600 ? 200 : 150
 
 export default class extends React.Component {
   props: Props;
