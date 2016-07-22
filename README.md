@@ -23,5 +23,5 @@ If possible, please go [here](https://applean.cn). It could be easier to program
 *Thanks for style and special components from F8*
 
 #License
-*BSD*
+*BSD*  
 as commercial value, only used for learning not business activity
