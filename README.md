@@ -1,6 +1,7 @@
-# G8 (version for Android is coming)
-Made for GMTC schedule in June
+# CX (version for Android is coming)
+Made for conference schedule
 ## Preview
+<img src="http://ww3.sinaimg.cn/large/005zU9b3gw1f61sqt440fg30aa0if4qq.gif"/>
 ### Home
 <img src="http://ww4.sinaimg.cn/large/005zU9b3gw1f61rf42dstj30ku11079h.jpg" width="340" height="600"/>
 &nbsp;&nbsp;&nbsp;
@@ -10,8 +11,6 @@ Made for GMTC schedule in June
 &nbsp;&nbsp;&nbsp;
 <img src="http://ww2.sinaimg.cn/large/005zU9b3gw1f61rf2s9guj30ku112jta.jpg" width="340" height="600"/>
 
-### Gif
-<img src="http://ww3.sinaimg.cn/large/005zU9b3gw1f61sqt440fg30aa0if4qq.gif"/>
 # Usage
 1. The repository contains parts for server and react native client, you can pay your attention to codes in client named 'GmtcClient' after cloning.
 2. `cd GmtcClient`
@@ -24,4 +23,5 @@ If possible, please go [here](https://applean.cn). It could be easier to program
 *Thanks for style and special components from F8*
 
 #License
-Not determined currently
+*BSD*
+as commercial value, only used for learning not business activity
