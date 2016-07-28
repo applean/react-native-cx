@@ -20,7 +20,7 @@ If possible, please go [here](https://applean.cn). It could be easier to program
 
 **If you encounter some problems while experiencing cx, just contact me for help or [create issues](https://github.com/applean/gmtc/issues) in this repository.**
 
-*Thanks for style and special components from F8*
+*Thanks for parts of design and special components from F8*
 
 #License
 *BSD*  
