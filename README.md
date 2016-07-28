@@ -18,7 +18,7 @@ Made for conference schedule
 4. `react-native run-ios` of course, you need OSX system to run ios.
 If possible, please go [here](https://applean.cn). It could be easier to program react-native on the [site](https://applean.cn).  
 
-**If you encounter some problems while experiencing G8, just contact me for help or [create issues](https://github.com/applean/gmtc/issues) in this repository.**
+**If you encounter some problems while experiencing cx, just contact me for help or [create issues](https://github.com/applean/gmtc/issues) in this repository.**
 
 *Thanks for style and special components from F8*
 
