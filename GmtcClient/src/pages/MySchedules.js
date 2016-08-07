@@ -46,7 +46,6 @@ class MySchedules extends Component {
   }
 
   renderEmptyView = () => {
-    console.log('dta: ', EMPTY_CELL_HEIGHT)
     return (
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center', paddingTop: EMPTY_CELL_HEIGHT}}>
         <Image source={require('../assets/no-topics-added.png')} />

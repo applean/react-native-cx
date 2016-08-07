@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import reducers from './reducers'
+import thunk from 'redux-thunk'
 import {Provider} from 'react-redux'
 import {persistStore, autoRehydrate} from 'redux-persist'
 import {createStore, applyMiddleware} from 'redux'
@@ -7,8 +8,10 @@ import {AsyncStorage} from 'react-native'
 import apiRequest from './helper/apiRequestMiddleware'
 import Home from './pages/MainScreen'
 
-const createStoreWithMiddleware = applyMiddleware(apiRequest)(createStore)
-const store = createStoreWithMiddleware(reducers)
+const createStoreWithMiddleware = applyMiddleware(thunk, apiRequest)(createStore)
+
+const store = autoRehydrate()(createStoreWithMiddleware)(reducers)
+persistStore(store, {storage: AsyncStorage})
 import {
   Platform,
   StatusBar,

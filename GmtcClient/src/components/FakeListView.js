@@ -25,7 +25,6 @@ export default class extends Component {
     for (let day in this.props.data) {
       length += data[day].length
     }
-    console.log('length: ', length)
     return (
         length > 0
       ? <ScrollView>
