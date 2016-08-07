@@ -1,6 +1,6 @@
-const LOAD = 'LOAD'
-const LOAD_SUCCESS = 'LOAD_SUCCESS'
-const LOAD_FAILED = 'LOAD_FAILED'
+const LOAD_DATA = 'LOAD_DATA'
+const LOAD_DATA_SUCCESS = 'LOAD_DATA_SUCCESS'
+const LOAD_DATA_FAILED = 'LOAD_DATA_FAILED'
 
 const initialState = {
   loading: true,
@@ -10,20 +10,20 @@ const initialState = {
 
 export default function reducer (state = initialState, action) {
   switch (action.type) {
-    case LOAD:
+    case LOAD_DATA:
       return {
         ...state,
         loading: true,
         error: null
       }
-    case LOAD_SUCCESS:
+    case LOAD_DATA_SUCCESS:
       return {
         ...state,
         loading: false,
         error: null,
         days: action.days
       }
-    case LOAD_FAILED:
+    case LOAD_DATA_FAILED:
       return {
         ...state,
         loading: false,
@@ -34,22 +34,9 @@ export default function reducer (state = initialState, action) {
   }
 }
 
-export function load () {
+export function loadData (api) {
   return {
-    type: LOAD
-  }
-}
-
-export function loadSuccess (days) {
-  return {
-    type: LOAD_SUCCESS,
-    days
-  }
-}
-
-export function loadFailed (error) {
-  return {
-    type: LOAD_FAILED,
-    error
+    types: [LOAD_DATA, LOAD_DATA_SUCCESS, LOAD_DATA_FAILED],
+    promise: fetch(api)
   }
 }

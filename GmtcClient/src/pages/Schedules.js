@@ -1,10 +1,9 @@
-/*global fetch*/
 import React, { Component, PropTypes } from 'react'
 import PureListView from '../components/PureListView'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import {genData, combineData} from '../helper/dataHelper'
-import * as dataActions from '../reducers/data'
+import {combineData} from '../helper/dataHelper'
+import {loadData} from '../reducers/data'
 import ListContainer from '../components/ListContainer'
 import TopicsCarousel from './TopicsCarousel'
 import Topic from './Topic'
@@ -15,13 +14,11 @@ import {
   Image,
   TouchableOpacity
 } from 'react-native'
-
+const API = 'http://gmtc.applean.cn/home/index.json'
 class Schedules extends Component {
   static propTypes = {
     navigator: PropTypes.object,
-    load: PropTypes.func.isRequired,
-    loadSuccess: PropTypes.func.isRequired,
-    loadFailed: PropTypes.func.isRequired,
+    loadData: PropTypes.func,
     loading: PropTypes.bool.isRequired,
     days: PropTypes.array.isRequired
   };
@@ -94,17 +91,7 @@ class Schedules extends Component {
   }
 
   componentDidMount () {
-    this.loadData()
-  }
-
-  loadData () {
-    this.props.load()
-    fetch('http://gmtc.applean.cn/home/index.json')
-    .then(response => response.json())
-    .then(responseData => {
-      this.props.loadSuccess(genData(responseData))
-    })
-    .catch(error => this.props.loadFailed(error))
+    this.props.loadData(API)
   }
 }
 
@@ -129,6 +116,6 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch =>
-  bindActionCreators({...dataActions}, dispatch)
+  bindActionCreators({loadData}, dispatch)
 
 module.exports = connect(mapStateToProps, mapDispatchToProps)(Schedules)

@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react'
 import PureListView from '../components/PureListView'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
-import * as dataActions from '../reducers/data'
 import TopicsCarousel from './TopicsCarousel'
 import Topic from './Topic'
 import {genSubscribedData} from '../helper/dataHelper'
@@ -20,9 +19,6 @@ import {
 class MySchedules extends Component {
   static propTypes = {
     navigator: PropTypes.object,
-    load: PropTypes.func.isRequired,
-    loadSuccess: PropTypes.func.isRequired,
-    loadFailed: PropTypes.func.isRequired,
     days: PropTypes.array.isRequired,
     topics: PropTypes.object,
     emptyOperation: PropTypes.func
@@ -118,13 +114,8 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = state => ({
-  loading: state.data.loading,
-  error: state.data.error,
   days: state.data.days,
   topics: genSubscribedData(state.data.days, state.schedule.subscription)
 })
 
-const mapDispatchToProps = dispatch =>
-  bindActionCreators({...dataActions}, dispatch)
-
-module.exports = connect(mapStateToProps, mapDispatchToProps)(MySchedules)
+module.exports = connect(mapStateToProps)(MySchedules)
