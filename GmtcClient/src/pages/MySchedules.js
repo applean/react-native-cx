@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import PureListView from '../components/PureListView'
 import {connect} from 'react-redux'
-import {bindActionCreators} from 'redux'
 import TopicsCarousel from './TopicsCarousel'
 import Topic from './Topic'
 import {genSubscribedData} from '../helper/dataHelper'
@@ -85,25 +84,10 @@ class MySchedules extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  },
-  center: {
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
   font: {
     fontSize: 12.5,
     color: '#555555'
   },
-  title: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    height: 44,
-    justifyContent: 'center',
-    alignItems: 'center'},
   message: {
     textAlign: 'center',
     fontSize: 14,
