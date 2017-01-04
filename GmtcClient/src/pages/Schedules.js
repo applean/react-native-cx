@@ -14,7 +14,7 @@ import {
   Image,
   TouchableOpacity
 } from 'react-native'
-const API = 'http://gmtc.applean.cn/home/index.json'
+const API = 'http://do.poberwong.com:8000/gmtc.json'
 class Schedules extends Component {
   static propTypes = {
     navigator: PropTypes.object,
